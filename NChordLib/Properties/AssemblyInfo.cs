@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LordOfTheFiles")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("NChordLib")]
+[assembly: AssemblyDescription("Source of NChordLib")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyProduct("NChordLib")]
+[assembly: AssemblyCopyright("Andrew Cencini")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
