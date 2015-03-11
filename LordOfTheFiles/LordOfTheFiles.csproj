@@ -8,8 +8,8 @@
     <ProjectGuid>{8F2303A7-448C-4F4B-BF2C-4393270CDA44}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestNChord</RootNamespace>
-    <AssemblyName>TestNChord</AssemblyName>
+    <RootNamespace>LordOfTheFiles</RootNamespace>
+    <AssemblyName>LordOfTheFiles</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
