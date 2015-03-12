@@ -114,7 +114,7 @@ namespace NChordLib
 
                 // TODO: the delay between iterations, here, is configurable, and
                 // ideally should be retrieved from configuration or otherwise passed in...
-                Thread.Sleep(30000);
+                Thread.Sleep(1000);
             }
         }
     }

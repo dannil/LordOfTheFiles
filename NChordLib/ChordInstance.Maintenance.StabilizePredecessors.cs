@@ -70,7 +70,7 @@ namespace NChordLib
                 }
 
                 // TODO: make this configurable either via config file or passed in via arguments.
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
             }
         }
     }

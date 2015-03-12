@@ -97,7 +97,7 @@ namespace NChordLib
                 }
 
                 // TODO: this could be tweaked and/or made configurable elsewhere or passed in as arguments
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
             }
         }
 
