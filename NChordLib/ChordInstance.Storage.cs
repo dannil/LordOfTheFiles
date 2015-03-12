@@ -36,7 +36,7 @@ namespace NChordLib
                 Console.WriteLine("Saving value " + value);
                 this.m_DataStore.Add(key, value);
 
-                ChordNode successor = ChordServer.CallFindSuccessor(key);
+                ChordNode successor = ChordServer.GetSuccessor(ChordServer.LocalNode);
 
                 Console.WriteLine("Calling remote node " + successor.ToString() + " for value " + value);
                 ChordServer.CallAddKey(successor, value);
@@ -86,7 +86,7 @@ namespace NChordLib
                 return m_DataStore[key];
             }
 
-            ChordNode successor = ChordServer.CallFindSuccessor(key);
+            ChordNode successor = ChordServer.GetSuccessor(ChordServer.LocalNode);
 
             Console.WriteLine("Calling remote node " + successor.ToString() + " for key " + key);
             return ChordServer.CallFindKey(successor, key);
