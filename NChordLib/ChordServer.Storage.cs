@@ -12,6 +12,14 @@ namespace NChordLib
 {
     public static partial class ChordServer
     {
+        private static ChordNode sourceNode;
+
+        public static ChordNode SourceNode
+        {
+            get { return sourceNode; }
+            set { sourceNode = value; }
+        }
+
         /// <summary>
         /// Calls AddKey() remotely, using a default retry value of three.
         /// </summary>

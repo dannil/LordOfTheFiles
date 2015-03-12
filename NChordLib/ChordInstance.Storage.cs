@@ -27,29 +27,51 @@ namespace NChordLib
         /// <param name="value">The value to add.</param>
         public void AddKey(string value)
         {
-            // the key is the hash of the value to
-            // add to the store, and determines the
-            // owning NChord node
             ulong key = ChordServer.GetHash(value);
 
-            // using the local node, determine the correct owning
-            // node for the data to be stored given the key value
-            ChordNode owningNode = ChordServer.CallFindSuccessor(key);
+            Console.WriteLine("Saving value " + value);
+            this.m_DataStore.Add(key, value);
 
-            if (owningNode.ID != ChordServer.LocalNode.ID)
+            if (ChordServer.SourceNode == null)
             {
-                // if this is not the owning node, then call AddKey
-                // on the actual owning node
-                Console.WriteLine("Calling remote node " + owningNode.ToString() + " for value " + value);
-                ChordServer.CallAddKey(owningNode, value);
+                ChordServer.SourceNode = ChordServer.LocalNode;
+            }
+
+            ChordNode receiver = ChordServer.GetSuccessor(ChordServer.LocalNode);
+
+            if (receiver.ID != ChordServer.SourceNode.ID)
+            {
+                Console.WriteLine("Calling remote node " + receiver.ToString() + " for value " + value);
+                ChordServer.CallAddKey(receiver, value);
             }
             else
             {
-                // if this is the owning node, then add the
-                // key to the local data store
-                Console.WriteLine(value);
-                this.m_DataStore.Add(key, value);
+                ChordServer.SourceNode = null;
             }
+
+            //// the key is the hash of the value to
+            //// add to the store, and determines the
+            //// owning NChord node
+            //ulong key = ChordServer.GetHash(value);
+
+            //// using the local node, determine the correct owning
+            //// node for the data to be stored given the key value
+            //ChordNode owningNode = ChordServer.CallFindSuccessor(key);
+
+            //if (owningNode.ID != ChordServer.LocalNode.ID)
+            //{
+            //    // if this is not the owning node, then call AddKey
+            //    // on the actual owning node
+            //    Console.WriteLine("Calling remote node " + owningNode.ToString() + " for value " + value);
+            //    ChordServer.CallAddKey(owningNode, value);
+            //}
+            //else
+            //{
+            //    // if this is the owning node, then add the
+            //    // key to the local data store
+            //    Console.WriteLine(value);
+            //    this.m_DataStore.Add(key, value);
+            //}
         }
 
         /// <summary>

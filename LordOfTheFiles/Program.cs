@@ -32,9 +32,43 @@ namespace LordOfTheFiles
 
                 //String test = instance.FindKey(ChordServer.GetHash("hej"));
                 //System.Diagnostics.Debug.WriteLine(test);
-            }
 
-            Console.ReadLine();
+                Console.ReadLine();
+
+                instance.AddKey("hej");
+                instance.AddKey("abcdefg");
+                instance.AddKey("tjenare hassan");
+                instance.AddKey("detta e ball");
+                instance.AddKey("12345");
+                instance.AddKey("etttvåtrefyra");
+                instance.AddKey("aloevero");
+                instance.AddKey("marker");
+                instance.AddKey("mus");
+                instance.AddKey("skärm");
+                instance.AddKey("bertil");
+                instance.AddKey("stikkan");
+                instance.AddKey("eluttag");
+                instance.AddKey("edding361");
+                instance.AddKey("b-kraft");
+                instance.AddKey("TrAnSfOrMaToR");
+                instance.AddKey("zebra");
+                instance.AddKey("zorro");
+                instance.AddKey("xylofon");
+                instance.AddKey("äppelpaj");
+                instance.AddKey("grodanboll");
+                instance.AddKey("walter");
+                instance.AddKey("tangentbord");
+                instance.AddKey("stilton");
+                instance.AddKey("chips");
+                instance.AddKey("gouda");
+                instance.AddKey("ägg");
+                instance.AddKey("gurka");
+                instance.AddKey("nämen hejsan");
+                instance.AddKey("pizza");
+                instance.AddKey("turtles");
+                instance.AddKey("raphael");
+                Console.ReadLine();
+            }
         }
     }
 }
