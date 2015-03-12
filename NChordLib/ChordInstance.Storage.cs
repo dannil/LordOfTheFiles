@@ -29,7 +29,7 @@ namespace NChordLib
         {
             ulong key = ChordServer.GetHash(value);
 
-            if (this.m_DataStore.ContainsKey(key))
+            if (!this.m_DataStore.ContainsKey(key))
             {
                 Console.WriteLine("Saving value " + value);
                 this.m_DataStore.Add(key, value);
@@ -73,30 +73,37 @@ namespace NChordLib
         /// <returns>The string value for the given key, or an empty string if not found.</returns>
         public string FindKey(ulong key)
         {
-            // determine the owning node for the key
-            ChordNode owningNode = ChordServer.CallFindSuccessor(key);
+            if (this.m_DataStore.ContainsKey(key))
+            {
+                return m_DataStore[key];
+            }
 
-            if (owningNode != ChordServer.LocalNode)
-            {
-                // if this is not the owning node, call
-                // FindKey on the remote owning node
-                return ChordServer.CallFindKey(owningNode, key);
-            }
-            else
-            {
-                // if this is the owning node, check
-                // to see if the key exists in the data store
-                if (this.m_DataStore.ContainsKey(key))
-                {
-                    // if the key exists, return the value
-                    return this.m_DataStore[key];
-                }
-                else
-                {
-                    // if the key does not exist, return empty string
-                    return string.Empty;
-                }
-            }
+            return ChordServer.CallFindKey(ChordServer.GetSuccessor(ChordServer.LocalNode), key);
+
+            // determine the owning node for the key
+            //ChordNode owningNode = ChordServer.CallFindSuccessor(key);
+
+            //if (owningNode != ChordServer.LocalNode)
+            //{
+            //     if this is not the owning node, call
+            //     FindKey on the remote owning node
+            //    return ChordServer.CallFindKey(owningNode, key);
+            //}
+            //else
+            //{
+            //     if this is the owning node, check
+            //     to see if the key exists in the data store
+            //    if (this.m_DataStore.ContainsKey(key))
+            //    {
+            //         if the key exists, return the value
+            //        return this.m_DataStore[key];
+            //    }
+            //    else
+            //    {
+            //         if the key does not exist, return empty string
+            //        return string.Empty;
+            //    }
+            //}
         }
 
         /// <summary>
