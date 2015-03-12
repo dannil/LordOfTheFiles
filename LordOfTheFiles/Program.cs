@@ -5,6 +5,7 @@ using System.Text;
 using NChordLib;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 
 namespace LordOfTheFiles
 {
@@ -33,8 +34,21 @@ namespace LordOfTheFiles
                 {
                     if (address != ip)
                     {
-                        PingReply reply = ping.Send(address);
-                        if (reply.Status.ToString() == "Success")
+                        bool alive = false;
+                        try
+                        {
+                            using (TcpClient tcpClient = new TcpClient())
+                            {
+                                tcpClient.Connect(ip, port);
+                                alive = true;
+                            }
+                        }
+                        catch (SocketException)
+                        {
+                            alive = false;
+                        }
+
+                        if (alive)
                         {
                             instance.Join(new ChordNode(address, port), ip, port);
                         }
