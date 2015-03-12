@@ -13,6 +13,8 @@ namespace NChordLib
 {
     public partial class ChordInstance : MarshalByRefObject
     {
+        private bool visited = false;
+
         /// <summary>
         /// The data structure used to store string data given a 
         /// 64-bit (ulong) key value.
@@ -34,10 +36,10 @@ namespace NChordLib
                 Console.WriteLine("Saving value " + value);
                 this.m_DataStore.Add(key, value);
 
-                ChordNode receiver = ChordServer.GetSuccessor(ChordServer.LocalNode);
+                ChordNode successor = ChordServer.CallFindSuccessor(key);
 
-                Console.WriteLine("Calling remote node " + receiver.ToString() + " for value " + value);
-                ChordServer.CallAddKey(receiver, value);
+                Console.WriteLine("Calling remote node " + successor.ToString() + " for value " + value);
+                ChordServer.CallAddKey(successor, value);
             }
 
             //// the key is the hash of the value to
@@ -73,12 +75,21 @@ namespace NChordLib
         /// <returns>The string value for the given key, or an empty string if not found.</returns>
         public string FindKey(ulong key)
         {
+            if (visited)
+            {
+                throw new KeyNotFoundException("Key " + key + " was not found in the network.");
+            }
+            visited = true;
+
             if (this.m_DataStore.ContainsKey(key))
             {
                 return m_DataStore[key];
             }
 
-            return ChordServer.CallFindKey(ChordServer.GetSuccessor(ChordServer.LocalNode), key);
+            ChordNode successor = ChordServer.CallFindSuccessor(key);
+
+            Console.WriteLine("Calling remote node " + successor.ToString() + " for key " + key);
+            return ChordServer.CallFindKey(successor, key);
 
             // determine the owning node for the key
             //ChordNode owningNode = ChordServer.CallFindSuccessor(key);
