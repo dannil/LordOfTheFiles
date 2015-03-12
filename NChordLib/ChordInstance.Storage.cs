@@ -29,24 +29,15 @@ namespace NChordLib
         {
             ulong key = ChordServer.GetHash(value);
 
-            Console.WriteLine("Saving value " + value);
-            this.m_DataStore.Add(key, value);
-
-            if (ChordServer.SourceNode == null)
+            if (this.m_DataStore.ContainsKey(key))
             {
-                ChordServer.SourceNode = ChordServer.LocalNode;
-            }
+                Console.WriteLine("Saving value " + value);
+                this.m_DataStore.Add(key, value);
 
-            ChordNode receiver = ChordServer.GetSuccessor(ChordServer.LocalNode);
+                ChordNode receiver = ChordServer.GetSuccessor(ChordServer.LocalNode);
 
-            if (receiver.ID != ChordServer.SourceNode.ID)
-            {
                 Console.WriteLine("Calling remote node " + receiver.ToString() + " for value " + value);
                 ChordServer.CallAddKey(receiver, value);
-            }
-            else
-            {
-                ChordServer.SourceNode = null;
             }
 
             //// the key is the hash of the value to
