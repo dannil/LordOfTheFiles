@@ -70,6 +70,7 @@ namespace LordOfTheFiles
                 }
 
                 instance.FindKey(ChordServer.GetHash("babbababbabbabba"));
+                instance.FindKey(ChordServer.GetHash("zorro0"));
 
                 Console.ReadLine();
             }

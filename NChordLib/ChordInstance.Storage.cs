@@ -19,6 +19,10 @@ namespace NChordLib
         /// </summary>
         private SortedList<ulong, string> m_DataStore = new SortedList<ulong, string>();
 
+        /// <summary>
+        /// Add a key-value pair to the ring.
+        /// </summary>
+        /// <param name="value">The value to be saved.</param>
         public void AddKey(string value)
         {
             ulong key = ChordServer.GetHash(value);
@@ -30,6 +34,11 @@ namespace NChordLib
             ReplicateRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
         }
 
+        /// <summary>
+        /// Add a key-value pair to the ring.
+        /// </summary>
+        /// <param name="value">The value to be saved.</param>
+        /// <param name="sourceNode">The node which initiated the request.</param>
         public void AddKey(string value, ChordNode sourceNode)
         {
             ulong key = ChordServer.GetHash(value);
@@ -45,6 +54,11 @@ namespace NChordLib
             }
         }
 
+        /// <summary>
+        /// Retrieve a value based on the key.
+        /// </summary>
+        /// <param name="key">The key for the value we want to fetch.</param>
+        /// <returns>The value if it exists in the ring; otherwise an empty string.</returns>
         public string FindKey(ulong key)
         {
             // First check if the local datastore contains the key
@@ -59,6 +73,12 @@ namespace NChordLib
             return FindKeyRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
         }
 
+        /// <summary>
+        /// Retrieve a value based on the key.
+        /// </summary>
+        /// <param name="key">The key for the value we want to fetch.</param>
+        /// <param name="sourceNode">The node which initiated the request.</param>
+        /// <returns>The value if it exists in the ring; otherwise an empty string.</returns>
         public string FindKey(ulong key, ChordNode sourceNode)
         {
             // First check if the local datastore contains the key
@@ -82,12 +102,6 @@ namespace NChordLib
             }
         }
 
-        public string FindKeyRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
-        {
-            ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for key {0} on node {1}", key, remoteNode);
-            return ChordServer.CallFindKey(remoteNode, sourceNode, key);
-        }
-
         /// <summary>
         /// Add the given key/value pair as replicas to the local store.
         /// </summary>
@@ -95,12 +109,19 @@ namespace NChordLib
         /// <param name="value">The value to replicate.</param>
         public void ReplicateKey(ulong key, string value)
         {
+            ChordServer.Log(LogLevel.Info, "Local invoker", "Replicating value {0} to local datastore", value);
             // add the key/value pair to the local
             // data store regardless of ownership
             if (!this.m_DataStore.ContainsKey(key))
             {
                 this.m_DataStore.Add(key, value);
             }
+        }
+
+        public string FindKeyRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
+        {
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for key {0} on node {1}", key, remoteNode);
+            return ChordServer.CallFindKey(remoteNode, sourceNode, key);
         }
 
         /// <summary>
