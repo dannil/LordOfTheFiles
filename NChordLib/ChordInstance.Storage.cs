@@ -47,27 +47,37 @@ namespace NChordLib
 
         public string FindKey(ulong key)
         {
+            // First check if the local datastore contains the key
             if (this.m_DataStore.ContainsKey(key))
             {
+                ChordServer.Log(LogLevel.Info, "Local invoker", "Found key {0} on node {1}", key, ChordServer.LocalNode);
                 return m_DataStore[key];
             }
 
+            // If the local datastore doesn't contain the specified 
+            // key, search for the key on a remote datastore
             return FindKeyRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
         }
 
         public string FindKey(ulong key, ChordNode sourceNode)
         {
+            // First check if the local datastore contains the key
             if (this.m_DataStore.ContainsKey(key))
             {
+                ChordServer.Log(LogLevel.Info, "Local invoker", "Found key {0} on node {1}", key, ChordServer.LocalNode);
                 return m_DataStore[key];
             }
 
+            // Search for the key on a remote datastore if the current local node isn't 
+            // the node which initiated the request; otherwise stop the request and return
+            // an empty string.
             if (sourceNode.ID != ChordServer.LocalNode.ID)
             {
                 return FindKeyRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
             }
             else
             {
+                ChordServer.Log(LogLevel.Info, "Local invoker", "Couldn't find key {0} on any node", key);
                 return string.Empty;
             }
         }

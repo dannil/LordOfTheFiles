@@ -69,7 +69,7 @@ namespace LordOfTheFiles
                     instance.AddKey("raphael" + i);
                 }
 
-                //instance.FindKey(ChordServer.GetHash("babbababbabbabba"));
+                instance.FindKey(ChordServer.GetHash("babbababbabbabba"));
 
                 Console.ReadLine();
             }
