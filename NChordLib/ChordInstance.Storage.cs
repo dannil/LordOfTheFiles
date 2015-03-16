@@ -74,8 +74,7 @@ namespace NChordLib
 
         public string FindKeyRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
         {
-            ChordServer.Log(LogLevel.Debug, "Local Invoker", "Calling remote node {0} for key {1}", remoteNode, key);
-            Console.WriteLine("Calling remote node " + remoteNode.ToString() + " for key " + key);
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for key {0} on node {1}", key, remoteNode);
             return ChordServer.CallFindKey(remoteNode, sourceNode, key);
         }
 
@@ -102,8 +101,7 @@ namespace NChordLib
         /// <param name="sourceNode">The node which initiated the request.</param>
         public void ReplicateRemote(string value, ChordNode remoteNode, ChordNode sourceNode)
         {
-            ChordServer.Log(LogLevel.Debug, "Local Invoker", "Calling remote node {0} for value {1}", remoteNode, value);
-            Console.WriteLine("Calling remote node " + remoteNode.ToString() + " for value " + value);
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Replicating value {0} on node {1}", value, remoteNode);
             ChordServer.CallAddKey(remoteNode, sourceNode, value);
         }
 
