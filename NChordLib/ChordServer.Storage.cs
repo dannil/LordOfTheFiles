@@ -25,9 +25,9 @@ namespace NChordLib
         /// </summary>
         /// <param name="remoteNode">The remote on which to call the method.</param>
         /// <param name="value">The string value to add.</param>
-        public static void CallAddKey(ChordNode remoteNode, string value)
+        public static void CallAddKey(ChordNode remoteNode, ChordNode sourceNode, string value)
         {
-            CallAddKey(remoteNode, value, 3);
+            CallAddKey(remoteNode, sourceNode, value, 3);
         }
 
         /// <summary>
@@ -36,13 +36,13 @@ namespace NChordLib
         /// <param name="remoteNode">The remote node on which to call AddKey.</param>
         /// <param name="value">The string value to add.</param>
         /// <param name="retryCount">The number of retries to attempt.</param>
-        public static void CallAddKey(ChordNode remoteNode, string value, int retryCount)
+        public static void CallAddKey(ChordNode remoteNode, ChordNode sourceNode, string value, int retryCount)
         {
             ChordInstance instance = ChordServer.GetInstance(remoteNode);
 
             try
             {
-                instance.AddKey(value);
+                instance.AddKey(value, sourceNode);
             }
             catch (System.Exception ex)
             {
@@ -50,7 +50,7 @@ namespace NChordLib
 
                 if (retryCount > 0)
                 {
-                    CallAddKey(remoteNode, value, --retryCount);
+                    CallAddKey(remoteNode, sourceNode, value, --retryCount);
                 }
                 else
                 {
