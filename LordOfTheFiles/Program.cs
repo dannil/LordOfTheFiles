@@ -26,42 +26,7 @@ namespace LordOfTheFiles
             if (ChordServer.RegisterService(port))
             {
                 ChordInstance instance = ChordServer.GetInstance(ChordServer.LocalNode);
-                
-                List<string> addresses = new List<string> { "10.2.16.25", "10.2.15.95", "10.1.22.246", "10.2.13.209" };
-                List<string> failures = new List<string>();
-                Ping ping = new Ping();
-                foreach (string address in addresses)
-                {
-                    if (address != ip)
-                    {
-                        bool alive = false;
-                        try
-                        {
-                            using (TcpClient tcpClient = new TcpClient())
-                            {
-                                tcpClient.Connect(ip, port);
-                                alive = true;
-                            }
-                        }
-                        catch (SocketException)
-                        {
-                            alive = false;
-                        }
-
-                        if (alive)
-                        {
-                            instance.Join(new ChordNode(address, port), ip, port);
-                        }
-                        else
-                        {
-                            failures.Add(address);
-                        }
-                    }
-                }
-                if (failures.Count == addresses.Count)
-                {
-                    instance.Join(null, ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
-                }
+                instance.Join(null, ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
 
                 //String test = instance.FindKey(ChordServer.GetHash("hej"));
                 //System.Diagnostics.Debug.WriteLine(test);

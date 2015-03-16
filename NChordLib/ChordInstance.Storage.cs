@@ -45,6 +45,40 @@ namespace NChordLib
             }
         }
 
+        public string FindKey(ulong key)
+        {
+            if (this.m_DataStore.ContainsKey(key))
+            {
+                return m_DataStore[key];
+            }
+
+            return FindKeyRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+        }
+
+        public string FindKey(ulong key, ChordNode sourceNode)
+        {
+            if (this.m_DataStore.ContainsKey(key))
+            {
+                return m_DataStore[key];
+            }
+
+            if (sourceNode.ID != ChordServer.LocalNode.ID)
+            {
+                return FindKeyRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        public string FindKeyRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
+        {
+            ChordServer.Log(LogLevel.Debug, "Local Invoker", "Calling remote node {0} for key {1}", remoteNode, key);
+            Console.WriteLine("Calling remote node " + remoteNode.ToString() + " for key " + key);
+            return ChordServer.CallFindKey(remoteNode, sourceNode, key);
+        }
+
         /// <summary>
         /// Add the given key/value pair as replicas to the local store.
         /// </summary>
@@ -69,52 +103,8 @@ namespace NChordLib
         public void ReplicateRemote(string value, ChordNode remoteNode, ChordNode sourceNode)
         {
             ChordServer.Log(LogLevel.Debug, "Local Invoker", "Calling remote node {0} for value {1}", remoteNode, value);
-            //Console.WriteLine("Calling remote node " + remoteNode.ToString() + " for value " + value);
+            Console.WriteLine("Calling remote node " + remoteNode.ToString() + " for value " + value);
             ChordServer.CallAddKey(remoteNode, sourceNode, value);
-        }
-
-        /// <summary>
-        /// Retrieve the string value for a given ulong
-        /// key.
-        /// </summary>
-        /// <param name="key">The key whose value should be returned.</param>
-        /// <returns>The string value for the given key, or an empty string if not found.</returns>
-        public string FindKey(ulong key)
-        {
-            if (this.m_DataStore.ContainsKey(key))
-            {
-                return m_DataStore[key];
-            }
-
-            ChordNode successor = ChordServer.GetSuccessor(ChordServer.LocalNode);
-
-            Console.WriteLine("Calling remote node " + successor.ToString() + " for key " + key);
-            return ChordServer.CallFindKey(successor, key);
-
-            // determine the owning node for the key
-            //ChordNode owningNode = ChordServer.CallFindSuccessor(key);
-
-            //if (owningNode != ChordServer.LocalNode)
-            //{
-            //     //if this is not the owning node, call
-            //     //FindKey on the remote owning node
-            //    return ChordServer.CallFindKey(owningNode, key);
-            //}
-            //else
-            //{
-            //     //if this is the owning node, check
-            //     //to see if the key exists in the data store
-            //    if (this.m_DataStore.ContainsKey(key))
-            //    {
-            //         //if the key exists, return the value
-            //        return this.m_DataStore[key];
-            //    }
-            //    else
-            //    {
-            //         //if the key does not exist, return empty string
-            //        return string.Empty;
-            //    }
-            //}
         }
 
     }

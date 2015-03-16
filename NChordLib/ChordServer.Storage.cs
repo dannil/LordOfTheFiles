@@ -65,9 +65,9 @@ namespace NChordLib
         /// <param name="remoteNode">The remote on which to call the method.</param>
         /// <param name="key">The key to look up.</param>
         /// <returns>The value corresponding to the key, or empty string if not found.</returns>
-        public static string CallFindKey(ChordNode remoteNode, ulong key)
+        public static string CallFindKey(ChordNode remoteNode, ChordNode sourceNode, ulong key)
         {
-            return CallFindKey(remoteNode, key, 3);
+            return CallFindKey(remoteNode, sourceNode, key, 3);
         }
 
         /// <summary>
@@ -77,13 +77,13 @@ namespace NChordLib
         /// <param name="key">The key to look up.</param>
         /// <param name="retryCount">The number of retries to attempt.</param>
         /// <returns>The value corresponding to the key, or empty string if not found.</returns>
-        public static string CallFindKey(ChordNode remoteNode, ulong key, int retryCount)
+        public static string CallFindKey(ChordNode remoteNode, ChordNode sourceNode, ulong key, int retryCount)
         {
             ChordInstance instance = ChordServer.GetInstance(remoteNode);
 
             try
             {
-                return instance.FindKey(key);
+                return instance.FindKey(key, sourceNode);
             }
             catch (System.Exception ex)
             {
@@ -91,7 +91,7 @@ namespace NChordLib
 
                 if (retryCount > 0)
                 {
-                    return CallFindKey(remoteNode, key, --retryCount);
+                    return CallFindKey(remoteNode, sourceNode, key, --retryCount);
                 }
                 else
                 {
