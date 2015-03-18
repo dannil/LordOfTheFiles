@@ -109,11 +109,11 @@ namespace NChordLib
         /// <param name="value">The value to replicate.</param>
         public void ReplicateKey(ulong key, string value)
         {
+            ChordServer.Log(LogLevel.Info, "Local invoker", "Replicating value {0} to local datastore", value);
             // add the key/value pair to the local
             // data store regardless of ownership
             if (!this.m_DataStore.ContainsKey(key))
             {
-                ChordServer.Log(LogLevel.Info, "Local invoker", "Replicating value {0} to local datastore", value);
                 this.m_DataStore.Add(key, value);
             }
         }
