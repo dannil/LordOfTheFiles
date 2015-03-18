@@ -73,11 +73,13 @@ namespace LordOfTheFiles
                 instance.FindKey(ChordServer.GetHash("babbababbabbabba"));
                 instance.FindKey(ChordServer.GetHash("zorro0"));
 
-                byte[] file = instance.GetFile(ChordServer.GetHash("helloworld.txt"));
+                string filename = "helloworld.txt";
+
+                byte[] file = instance.GetFile(ChordServer.GetHash(filename));
 
                 if (file != null)
                 {
-                    string path = Environment.CurrentDirectory + "/files/" + "helloworld2.txt";
+                    string path = Environment.CurrentDirectory + "/files/" + filename;
                     File.WriteAllBytes(path, file);
                 }
 

@@ -148,7 +148,6 @@ namespace NChordLib
                 string shortenedFile = file.Substring(file.IndexOf("\\") + 1);
                 if (key == ChordServer.GetHash(shortenedFile))
                 {
-                    System.Diagnostics.Debug.WriteLine(shortenedFile);
                     fileContent = File.ReadAllBytes(file);
                 }
             }
@@ -157,6 +156,7 @@ namespace NChordLib
             {
                 return GetFileRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
             }
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Found file with key {0} on node {1}", key, ChordServer.LocalNode);
             return fileContent;
         }
 
@@ -165,8 +165,9 @@ namespace NChordLib
             byte[] fileContent = null;
             string[] files = Directory.GetFiles("files");
 
-            if (sourceNode.ID != ChordServer.LocalNode.ID)
+            if (sourceNode.ID == ChordServer.LocalNode.ID)
             {
+                ChordServer.Log(LogLevel.Info, "Local Invoker", "Couldn't find file with key {0} on any node", key);
                 return null;
             }
 
@@ -175,14 +176,13 @@ namespace NChordLib
                 string shortenedFile = file.Substring(file.IndexOf("\\") + 1);
                 if (key == ChordServer.GetHash(shortenedFile))
                 {
-                    System.Diagnostics.Debug.WriteLine(shortenedFile);
                     fileContent = File.ReadAllBytes(file);
                 }
             }
 
             if (fileContent == null)
             {
-                return GetFileRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+                return GetFileRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
             }
             return fileContent;
         }
