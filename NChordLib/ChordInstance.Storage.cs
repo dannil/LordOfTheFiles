@@ -138,8 +138,10 @@ namespace NChordLib
             ChordServer.CallAddKey(remoteNode, sourceNode, value);
         }
 
-        public byte[] GetFile(ulong key)
+        public byte[] GetFile(string value)
         {
+            ulong key = ChordServer.GetHash(value);
+
             byte[] fileContent = null;
             string[] files = Directory.GetFiles("files");
 
@@ -154,22 +156,30 @@ namespace NChordLib
 
             if (fileContent == null)
             {
-                return GetFileRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+                byte[] remoteContent = GetFileRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+                if (remoteContent != null)
+                {
+                    string path = Environment.CurrentDirectory + "/files/" + value;
+                    File.WriteAllBytes(path, remoteContent);
+                }
+                return remoteContent;
             }
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Found file with key {0} on node {1}", key, ChordServer.LocalNode);
             return fileContent;
         }
 
-        public byte[] GetFile(ulong key, ChordNode sourceNode)
+        public byte[] GetFile(string value, ChordNode sourceNode)
         {
-            byte[] fileContent = null;
-            string[] files = Directory.GetFiles("files");
-
             if (sourceNode.ID == ChordServer.LocalNode.ID)
             {
-                ChordServer.Log(LogLevel.Info, "Local Invoker", "Couldn't find file with key {0} on any node", key);
+                ChordServer.Log(LogLevel.Info, "Local Invoker", "Couldn't find file with value {0} on any node", value);
                 return null;
             }
+
+            ulong key = ChordServer.GetHash(value);
+
+            byte[] fileContent = null;
+            string[] files = Directory.GetFiles("files");
 
             foreach (string file in files)
             {
@@ -182,15 +192,22 @@ namespace NChordLib
 
             if (fileContent == null)
             {
-                return GetFileRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
+                byte[] remoteContent = GetFileRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
+                if (remoteContent != null)
+                {
+                    string path = Environment.CurrentDirectory + "/files/" + value;
+                    File.WriteAllBytes(path, remoteContent);
+                }
+                return remoteContent;
             }
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Found file with key {0} on node {1}", key, ChordServer.LocalNode);
             return fileContent;
         }
 
-        public byte[] GetFileRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
+        public byte[] GetFileRemote(string value, ChordNode remoteNode, ChordNode sourceNode)
         {
-            ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for file with key {0} on node {1}", key, remoteNode);
-            return ChordServer.CallGetFile(remoteNode, sourceNode, key);
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for file with value {0} on node {1}", value, remoteNode);
+            return ChordServer.CallGetFile(remoteNode, sourceNode, value);
         }
 
     }

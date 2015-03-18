@@ -126,19 +126,19 @@ namespace NChordLib
             }
         }
 
-        public static byte[] CallGetFile(ChordNode remoteNode, ChordNode sourceNode, ulong key)
+        public static byte[] CallGetFile(ChordNode remoteNode, ChordNode sourceNode, string value)
         {
-            return CallGetFile(remoteNode, sourceNode, key, 3);
+            return CallGetFile(remoteNode, sourceNode, value, 3);
         }
 
-        public static byte[] CallGetFile(ChordNode remoteNode, ChordNode sourceNode, ulong key, int retryCount)
+        public static byte[] CallGetFile(ChordNode remoteNode, ChordNode sourceNode, string value, int retryCount)
         {
 
             ChordInstance instance = ChordServer.GetInstance(remoteNode);
 
             try
             {
-                return instance.GetFile(key, sourceNode);
+                return instance.GetFile(value, sourceNode);
             }
             catch (System.Exception ex)
             {
@@ -146,7 +146,7 @@ namespace NChordLib
 
                 if (retryCount > 0)
                 {
-                    return CallGetFile(remoteNode, sourceNode, key, --retryCount);
+                    return CallGetFile(remoteNode, sourceNode, value, --retryCount);
                 }
                 else
                 {

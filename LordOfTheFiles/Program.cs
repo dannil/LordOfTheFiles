@@ -75,7 +75,7 @@ namespace LordOfTheFiles
 
                 string filename = "helloworld.txt";
 
-                byte[] file = instance.GetFile(ChordServer.GetHash(filename));
+                byte[] file = instance.GetFile(filename);
 
                 if (file != null)
                 {
