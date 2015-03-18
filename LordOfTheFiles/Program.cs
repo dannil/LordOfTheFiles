@@ -6,6 +6,7 @@ using NChordLib;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.IO;
 
 namespace LordOfTheFiles
 {
@@ -26,7 +27,7 @@ namespace LordOfTheFiles
             if (ChordServer.RegisterService(port))
             {
                 ChordInstance instance = ChordServer.GetInstance(ChordServer.LocalNode);
-                instance.Join(null, ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
+                instance.Join(new ChordNode("10.2.16.25", port), ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
 
                 //String test = instance.FindKey(ChordServer.GetHash("hej"));
                 //System.Diagnostics.Debug.WriteLine(test);
@@ -71,6 +72,14 @@ namespace LordOfTheFiles
 
                 instance.FindKey(ChordServer.GetHash("babbababbabbabba"));
                 instance.FindKey(ChordServer.GetHash("zorro0"));
+
+                byte[] file = instance.GetFile(ChordServer.GetHash("helloworld.txt"));
+
+                if (file != null)
+                {
+                    string path = Environment.CurrentDirectory + "/files/" + "helloworld2.txt";
+                    File.WriteAllBytes(path, file);
+                }
 
                 Console.ReadLine();
             }

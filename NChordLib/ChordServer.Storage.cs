@@ -1,25 +1,9 @@
-﻿/*
- * ChordServer.Storage.cs:
- * 
- *  Exposes wrapped methods used in working with
- *  the sample NChord data store.
- * 
- */
-
-using System;
+﻿using System;
 
 namespace NChordLib
 {
     public static partial class ChordServer
     {
-        //private static ChordNode sourceNode;
-
-        //public static ChordNode SourceNode
-        //{
-        //    get { return sourceNode; }
-        //    set { sourceNode = value; }
-        //}
-
         /// <summary>
         /// Calls AddKey() remotely, using a default retry value of three.
         /// </summary>
@@ -138,6 +122,36 @@ namespace NChordLib
                 else
                 {
                     ChordServer.Log(LogLevel.Debug, "Remote Invoker", "CallReplicateKey failed - error: {0}", ex.Message);
+                }
+            }
+        }
+
+        public static byte[] CallGetFile(ChordNode remoteNode, ChordNode sourceNode, ulong key)
+        {
+            return CallGetFile(remoteNode, sourceNode, key, 3);
+        }
+
+        public static byte[] CallGetFile(ChordNode remoteNode, ChordNode sourceNode, ulong key, int retryCount)
+        {
+
+            ChordInstance instance = ChordServer.GetInstance(remoteNode);
+
+            try
+            {
+                return instance.GetFile(key, sourceNode);
+            }
+            catch (System.Exception ex)
+            {
+                ChordServer.Log(LogLevel.Debug, "Remote Invoker", "CallGetFile error: {0}", ex.Message);
+
+                if (retryCount > 0)
+                {
+                    return CallGetFile(remoteNode, sourceNode, key, --retryCount);
+                }
+                else
+                {
+                    ChordServer.Log(LogLevel.Debug, "Remote Invoker", "CallGetFile failed - error: {0}", ex.Message);
+                    return null;
                 }
             }
         }

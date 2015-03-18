@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 
 namespace NChordLib
 {
@@ -109,11 +111,11 @@ namespace NChordLib
         /// <param name="value">The value to replicate.</param>
         public void ReplicateKey(ulong key, string value)
         {
-            ChordServer.Log(LogLevel.Info, "Local invoker", "Replicating value {0} to local datastore", value);
             // add the key/value pair to the local
             // data store regardless of ownership
             if (!this.m_DataStore.ContainsKey(key))
             {
+                ChordServer.Log(LogLevel.Info, "Local invoker", "Replicating value {0} to local datastore", value);
                 this.m_DataStore.Add(key, value);
             }
         }
@@ -134,6 +136,61 @@ namespace NChordLib
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Replicating value {0} on node {1}", value, remoteNode);
             ChordServer.CallAddKey(remoteNode, sourceNode, value);
+        }
+
+        public byte[] GetFile(ulong key)
+        {
+            byte[] fileContent = null;
+            string[] files = Directory.GetFiles("files");
+
+            foreach (string file in files)
+            {
+                string shortenedFile = file.Substring(file.IndexOf("\\") + 1);
+                if (key == ChordServer.GetHash(shortenedFile))
+                {
+                    System.Diagnostics.Debug.WriteLine(shortenedFile);
+                    fileContent = File.ReadAllBytes(file);
+                }
+            }
+
+            if (fileContent == null)
+            {
+                return GetFileRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+            }
+            return fileContent;
+        }
+
+        public byte[] GetFile(ulong key, ChordNode sourceNode)
+        {
+            byte[] fileContent = null;
+            string[] files = Directory.GetFiles("files");
+
+            if (sourceNode.ID != ChordServer.LocalNode.ID)
+            {
+                return null;
+            }
+
+            foreach (string file in files)
+            {
+                string shortenedFile = file.Substring(file.IndexOf("\\") + 1);
+                if (key == ChordServer.GetHash(shortenedFile))
+                {
+                    System.Diagnostics.Debug.WriteLine(shortenedFile);
+                    fileContent = File.ReadAllBytes(file);
+                }
+            }
+
+            if (fileContent == null)
+            {
+                return GetFileRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+            }
+            return fileContent;
+        }
+
+        public byte[] GetFileRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
+        {
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for file with key {0} on node {1}", key, remoteNode);
+            return ChordServer.CallGetFile(remoteNode, sourceNode, key);
         }
 
     }
