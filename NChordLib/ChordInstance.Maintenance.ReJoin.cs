@@ -83,39 +83,22 @@ namespace NChordLib
                         // first find the successor for the seed node
                         if (this.m_SeedNode != null)
                         {
-                            ChordInstance instance = ChordServer.GetInstance(m_SeedNode);
+                            ChordNode seedSuccessor = FindSuccessor(this.m_SeedNode.ID);
 
-                            for (int i = 0; i < instance.SuccessorCache.Length; i++)
+                            // if the successor is not equal to the seed node, something is fishy
+                            if (seedSuccessor.ID != this.m_SeedNode.ID)
                             {
-                                ChordNode cachedNode = instance.SuccessorCache[i];
-                                if (cachedNode.ID != ChordServer.LocalNode.ID)
+                                // if the seed node is still active, re-join the ring to the seed node
+                                ChordInstance instance = ChordServer.GetInstance(this.m_SeedNode);
+                                if (ChordServer.IsInstanceValid(instance))
                                 {
-                                    ChordInstance cachedInstance = ChordServer.GetInstance(cachedNode);
-
-                                    if (ChordServer.IsInstanceValid(cachedInstance))
-                                    {
-                                        ChordServer.Log(LogLevel.Error, "ReJoin", "Unable to contact seed node {0}.  Re-Joining...", cachedNode);
-                                        Join(cachedNode, cachedNode.Host, cachedNode.PortNumber);
-                                    }
+                                    ChordServer.Log(LogLevel.Error, "ReJoin", "Unable to contact initial seed node {0}.  Re-Joining...", this.m_SeedNode);
+                                    Join(this.m_SeedNode, this.Host, this.Port);
                                 }
+
+                                // otherwise, in the future, there will be a cache of seed nodes to check/join from...
+                                // as it may be the case that the seed node simply has disconnected from the network.
                             }
-
-                            //ChordNode seedSuccessor = FindSuccessor(this.m_SeedNode.ID);
-
-                            //// if the successor is not equal to the seed node, something is fishy
-                            //if (seedSuccessor.ID != this.m_SeedNode.ID)
-                            //{
-                            //    // if the seed node is still active, re-join the ring to the seed node
-                            //    ChordInstance instance = ChordServer.GetInstance(this.m_SeedNode);
-                            //    if (ChordServer.IsInstanceValid(instance))
-                            //    {
-                            //        ChordServer.Log(LogLevel.Error, "ReJoin", "Unable to contact initial seed node {0}.  Re-Joining...", this.m_SeedNode);
-                            //        Join(this.m_SeedNode, this.Host, this.Port);
-                            //    }
-
-                            //    // otherwise, in the future, there will be a cache of seed nodes to check/join from...
-                            //    // as it may be the case that the seed node simply has disconnected from the network.
-                            //}
                         }
                     }
                     else
