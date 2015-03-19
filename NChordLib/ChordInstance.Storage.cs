@@ -76,7 +76,8 @@ namespace NChordLib
         }
 
         /// <summary>
-        /// Retrieve a value based on the key.
+        /// Retrieve a value based on the key with the source node specified. 
+        /// This method should not be invoked directly; use instead FindKey(key)
         /// </summary>
         /// <param name="key">The key for the value we want to fetch.</param>
         /// <param name="sourceNode">The node which initiated the request.</param>
@@ -138,6 +139,11 @@ namespace NChordLib
             ChordServer.CallAddKey(remoteNode, sourceNode, value);
         }
 
+        /// <summary>
+        /// Retrieves a file from the network if present on any node.
+        /// </summary>
+        /// <param name="value">The filename to fetch.</param>
+        /// <returns>A byte array consisting of the file.</returns>
         public byte[] GetFile(string value)
         {
             ulong key = ChordServer.GetHash(value);
@@ -145,31 +151,43 @@ namespace NChordLib
             byte[] fileContent = null;
             string[] files = Directory.GetFiles("files");
 
+            // Search our files directory for the specified file
             foreach (string file in files)
             {
-                string shortenedFile = file.Substring(file.IndexOf("\\") + 1);
-                if (key == ChordServer.GetHash(shortenedFile))
+                string filename = Path.GetFileName(file);
+                if (key == ChordServer.GetHash(filename))
                 {
+                    // If the hash of both the stored file and the specified file
+                    // matches eachother, convert the file to a byte array
                     fileContent = File.ReadAllBytes(file);
                 }
             }
 
+            // If the file couldn't be found, ask our successor for the file
             if (fileContent == null)
             {
                 byte[] remoteContent = GetFileRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
                 if (remoteContent != null)
                 {
-                    string path = Environment.CurrentDirectory + "/files/" + value;
-                    File.WriteAllBytes(path, remoteContent);
+                    // If the file was found on our successor, replicate the
+                    // file to our local directory
+                    ReplicateFile(value, remoteContent);
                 }
                 return remoteContent;
             }
-            ChordServer.Log(LogLevel.Info, "Local Invoker", "Found file with key {0} on node {1}", key, ChordServer.LocalNode);
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Found file with value {0} on node {1}", key, ChordServer.LocalNode);
             return fileContent;
         }
 
+        /// <summary>
+        /// Retrieves a file from the network if present on any node with the source node
+        /// specified. This method should not be invoked directly; use instead GetFile(value)
+        /// </summary>
+        /// <param name="value">The filename to fetch.</param>
+        /// <returns>A byte array consisting of the file.</returns>
         public byte[] GetFile(string value, ChordNode sourceNode)
         {
+            // If the current node is the source node, abort the request
             if (sourceNode.ID == ChordServer.LocalNode.ID)
             {
                 ChordServer.Log(LogLevel.Info, "Local Invoker", "Couldn't find file with value {0} on any node", value);
@@ -181,22 +199,27 @@ namespace NChordLib
             byte[] fileContent = null;
             string[] files = Directory.GetFiles("files");
 
+            // Search our files directory for the specified file
             foreach (string file in files)
             {
-                string shortenedFile = file.Substring(file.IndexOf("\\") + 1);
-                if (key == ChordServer.GetHash(shortenedFile))
+                string filename = Path.GetFileName(file);
+                if (key == ChordServer.GetHash(filename))
                 {
+                    // If the hash of both the stored file and the specified file
+                    // matches eachother, convert the file to a byte array
                     fileContent = File.ReadAllBytes(file);
                 }
             }
 
+            // If the file couldn't be found, ask our successor for the file
             if (fileContent == null)
             {
                 byte[] remoteContent = GetFileRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
                 if (remoteContent != null)
                 {
-                    string path = Environment.CurrentDirectory + "/files/" + value;
-                    File.WriteAllBytes(path, remoteContent);
+                    // If the file was found on our successor, replicate the
+                    // file to our local directory
+                    ReplicateFile(value, remoteContent);
                 }
                 return remoteContent;
             }
@@ -208,6 +231,33 @@ namespace NChordLib
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for file with value {0} on node {1}", value, remoteNode);
             return ChordServer.CallGetFile(remoteNode, sourceNode, value);
+        }
+
+        /// <summary>
+        /// Replicate the specified byte array to the specified value.
+        /// </summary>
+        /// <param name="name">The filename of the file to replicate.</param>
+        /// <param name="fileContent">The content of the file to replicate.</param>
+        private void ReplicateFile(string name, byte[] fileContent)
+        {
+            ReplicateFile(null, name, fileContent);
+        }
+
+        /// <summary>
+        /// Replicate the specified byte array to the specified value. If no special
+        /// filepath is needed, use ReplicateFile(name, fileContent) instead.
+        /// </summary>
+        /// <param name="path">The path to replicate to.</param>
+        /// <param name="name">The filename of the file to replicate.</param>
+        /// <param name="fileContent">The content of the file to replicate.</param>
+        private void ReplicateFile(string path, string name, byte[] fileContent)
+        {
+            string defaultPath = Environment.CurrentDirectory + "/files/" + name;
+            if (path != null)
+            {
+                defaultPath = path;
+            }
+            File.WriteAllBytes(path, fileContent);
         }
 
     }
