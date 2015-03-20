@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.IO;
+using LordOfTheFiles.Manager;
 
 namespace LordOfTheFiles
 {
@@ -14,6 +15,8 @@ namespace LordOfTheFiles
     {
         static void Main(string[] args)
         {
+            StorageManager storageManager;
+
             int port = 8861;
 
             string host = Dns.GetHostName();
@@ -26,8 +29,8 @@ namespace LordOfTheFiles
 
             if (ChordServer.RegisterService(port))
             {
-                ChordInstance instance = ChordServer.GetInstance(ChordServer.LocalNode);
-                instance.Join(null, ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
+                storageManager = new StorageManager();
+                storageManager.Instance.Join(null, ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
 
                 //String test = instance.FindKey(ChordServer.GetHash("hej"));
                 //System.Diagnostics.Debug.WriteLine(test);
@@ -36,42 +39,42 @@ namespace LordOfTheFiles
 
                 for (int i = 0; i < 1; i++)
                 {
-                    instance.AddKey("hej" + i);
-                    instance.AddKey("abcdefg" + i);
-                    instance.AddKey("tjenare hassan" + i);
-                    instance.AddKey("detta e ball" + i);
-                    instance.AddKey("12345" + i);
-                    instance.AddKey("etttvåtrefyra" + i);
-                    instance.AddKey("aloevero" + i);
-                    instance.AddKey("marker" + i);
-                    instance.AddKey("mus" + i);
-                    instance.AddKey("skärm" + i);
-                    instance.AddKey("bertil" + i);
-                    instance.AddKey("stikkan" + i);
-                    instance.AddKey("eluttag" + i);
-                    instance.AddKey("edding361" + i);
-                    instance.AddKey("b-kraft" + i);
-                    instance.AddKey("TrAnSfOrMaToR" + i);
-                    instance.AddKey("zebra" + i);
-                    instance.AddKey("zorro" + i);
-                    instance.AddKey("xylofon" + i);
-                    instance.AddKey("äppelpaj" + i);
-                    instance.AddKey("grodanboll" + i);
-                    instance.AddKey("walter" + i);
-                    instance.AddKey("tangentbord" + i);
-                    instance.AddKey("stilton" + i);
-                    instance.AddKey("chips" + i);
-                    instance.AddKey("gouda" + i);
-                    instance.AddKey("ägg" + i);
-                    instance.AddKey("gurka" + i);
-                    instance.AddKey("nämen hejsan" + i);
-                    instance.AddKey("pizza" + i);
-                    instance.AddKey("turtles" + i);
-                    instance.AddKey("raphael" + i);
+                    storageManager.AddKey("hej" + i);
+                    storageManager.AddKey("abcdefg" + i);
+                    storageManager.AddKey("tjenare hassan" + i);
+                    storageManager.AddKey("detta e ball" + i);
+                    storageManager.AddKey("12345" + i);
+                    storageManager.AddKey("etttvåtrefyra" + i);
+                    storageManager.AddKey("aloevero" + i);
+                    storageManager.AddKey("marker" + i);
+                    storageManager.AddKey("mus" + i);
+                    storageManager.AddKey("skärm" + i);
+                    storageManager.AddKey("bertil" + i);
+                    storageManager.AddKey("stikkan" + i);
+                    storageManager.AddKey("eluttag" + i);
+                    storageManager.AddKey("edding361" + i);
+                    storageManager.AddKey("b-kraft" + i);
+                    storageManager.AddKey("TrAnSfOrMaToR" + i);
+                    storageManager.AddKey("zebra" + i);
+                    storageManager.AddKey("zorro" + i);
+                    storageManager.AddKey("xylofon" + i);
+                    storageManager.AddKey("äppelpaj" + i);
+                    storageManager.AddKey("grodanboll" + i);
+                    storageManager.AddKey("walter" + i);
+                    storageManager.AddKey("tangentbord" + i);
+                    storageManager.AddKey("stilton" + i);
+                    storageManager.AddKey("chips" + i);
+                    storageManager.AddKey("gouda" + i);
+                    storageManager.AddKey("ägg" + i);
+                    storageManager.AddKey("gurka" + i);
+                    storageManager.AddKey("nämen hejsan" + i);
+                    storageManager.AddKey("pizza" + i);
+                    storageManager.AddKey("turtles" + i);
+                    storageManager.AddKey("raphael" + i);
                 }
 
-                instance.FindKey(ChordServer.GetHash("babbababbabbabba"));
-                instance.FindKey(ChordServer.GetHash("zorro0"));
+                storageManager.FindKey(ChordServer.GetHash("babbababbabbabba"));
+                storageManager.FindKey(ChordServer.GetHash("zorro0"));
 
                 //string filename = "helloworld.txt";
 
@@ -85,7 +88,7 @@ namespace LordOfTheFiles
 
                 string file = "helloworld.txt";
 
-                instance.AddFile(file,  File.ReadAllBytes(Environment.CurrentDirectory + "/" + file));
+                storageManager.AddFile(file, File.ReadAllBytes(Environment.CurrentDirectory + "/" + file));
 
                 Console.ReadLine();
             }

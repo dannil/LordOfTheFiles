@@ -19,7 +19,7 @@ namespace NChordLib
         /// The data structure used to store string data given a 
         /// 64-bit (ulong) key value.
         /// </summary>
-        private SortedList<ulong, string> m_DataStore = new SortedList<ulong, string>();
+        private SortedList<ulong, string> dataStore = new SortedList<ulong, string>();
 
         /// <summary>
         /// Add a key-value pair to the ring.
@@ -64,10 +64,10 @@ namespace NChordLib
         public string FindKey(ulong key)
         {
             // First check if the local datastore contains the key
-            if (this.m_DataStore.ContainsKey(key))
+            if (this.dataStore.ContainsKey(key))
             {
                 ChordServer.Log(LogLevel.Info, "Local invoker", "Found key {0} on node {1}", key, ChordServer.LocalNode);
-                return m_DataStore[key];
+                return dataStore[key];
             }
 
             // If the local datastore doesn't contain the specified 
@@ -85,10 +85,10 @@ namespace NChordLib
         public string FindKey(ulong key, ChordNode sourceNode)
         {
             // First check if the local datastore contains the key
-            if (this.m_DataStore.ContainsKey(key))
+            if (this.dataStore.ContainsKey(key))
             {
                 ChordServer.Log(LogLevel.Info, "Local invoker", "Found key {0} on node {1}", key, ChordServer.LocalNode);
-                return m_DataStore[key];
+                return dataStore[key];
             }
 
             // Search for the key on a remote datastore if the current local node isn't 
@@ -114,14 +114,14 @@ namespace NChordLib
         {
             // add the key/value pair to the local
             // data store regardless of ownership
-            if (!this.m_DataStore.ContainsKey(key))
+            if (!this.dataStore.ContainsKey(key))
             {
                 ChordServer.Log(LogLevel.Info, "Local invoker", "Replicating value {0} to local datastore", value);
-                this.m_DataStore.Add(key, value);
+                this.dataStore.Add(key, value);
             }
         }
 
-        public string FindKeyRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
+        private string FindKeyRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for key {0} on node {1}", key, remoteNode);
             return ChordServer.CallFindKey(remoteNode, sourceNode, key);
@@ -144,7 +144,7 @@ namespace NChordLib
         /// </summary>
         /// <param name="value">The filename to fetch.</param>
         /// <returns>A byte array consisting of the file.</returns>
-        public byte[] GetFile(string value)
+        public byte[] FindFile(string value)
         {
             ulong key = ChordServer.GetHash(value);
 
@@ -166,7 +166,7 @@ namespace NChordLib
             // If the file couldn't be found, ask our successor for the file
             if (fileContent == null)
             {
-                byte[] remoteContent = GetFileRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+                byte[] remoteContent = FindFileRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
                 if (remoteContent != null)
                 {
                     // If the file was found on our successor, replicate the
@@ -185,7 +185,7 @@ namespace NChordLib
         /// </summary>
         /// <param name="value">The filename to fetch.</param>
         /// <returns>A byte array consisting of the file.</returns>
-        public byte[] GetFile(string value, ChordNode sourceNode)
+        public byte[] FindFile(string value, ChordNode sourceNode)
         {
             // If the current node is the source node, abort the request
             if (sourceNode.ID == ChordServer.LocalNode.ID)
@@ -214,7 +214,7 @@ namespace NChordLib
             // If the file couldn't be found, ask our successor for the file
             if (fileContent == null)
             {
-                byte[] remoteContent = GetFileRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
+                byte[] remoteContent = FindFileRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
                 if (remoteContent != null)
                 {
                     // If the file was found on our successor, replicate the
@@ -227,7 +227,7 @@ namespace NChordLib
             return fileContent;
         }
 
-        public byte[] GetFileRemote(string value, ChordNode remoteNode, ChordNode sourceNode)
+        private byte[] FindFileRemote(string value, ChordNode remoteNode, ChordNode sourceNode)
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for file with value {0} on node {1}", value, remoteNode);
             return ChordServer.CallGetFile(remoteNode, sourceNode, value);
@@ -238,24 +238,12 @@ namespace NChordLib
         /// </summary>
         /// <param name="name">The filename of the file to replicate.</param>
         /// <param name="fileContent">The content of the file to replicate.</param>
-        private void ReplicateFile(string name, byte[] fileContent)
+        public void ReplicateFile(string name, byte[] fileContent)
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Replicating file with name {0} on local node", name);
             string path = Environment.CurrentDirectory + "/files/" + name;
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             File.WriteAllBytes(path, fileContent);
-        }
-
-        /// <summary>
-        /// Add a file to the network.
-        /// </summary>
-        /// <param name="name">The filename of the added file.</param>
-        /// <param name="fileContent">The content of the file.</param>
-        public void AddFile(string name, byte[] fileContent)
-        {
-            AddKey(name);
-
-            ReplicateFile(name, fileContent);
         }
 
     }

@@ -138,7 +138,7 @@ namespace NChordLib
 
             try
             {
-                return instance.GetFile(value, sourceNode);
+                return instance.FindFile(value, sourceNode);
             }
             catch (System.Exception ex)
             {
