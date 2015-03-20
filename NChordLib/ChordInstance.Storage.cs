@@ -234,30 +234,28 @@ namespace NChordLib
         }
 
         /// <summary>
-        /// Replicate the specified byte array to the specified value.
+        /// Replicate the specified byte array to the specified filename.
         /// </summary>
         /// <param name="name">The filename of the file to replicate.</param>
         /// <param name="fileContent">The content of the file to replicate.</param>
         private void ReplicateFile(string name, byte[] fileContent)
         {
-            ReplicateFile(null, name, fileContent);
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Replicating file with name {0} on local node", name);
+            string path = Environment.CurrentDirectory + "/files/" + name;
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            File.WriteAllBytes(path, fileContent);
         }
 
         /// <summary>
-        /// Replicate the specified byte array to the specified value. If no special
-        /// filepath is needed, use ReplicateFile(name, fileContent) instead.
+        /// Add a file to the network.
         /// </summary>
-        /// <param name="path">The path to replicate to.</param>
-        /// <param name="name">The filename of the file to replicate.</param>
-        /// <param name="fileContent">The content of the file to replicate.</param>
-        private void ReplicateFile(string path, string name, byte[] fileContent)
+        /// <param name="name">The filename of the added file.</param>
+        /// <param name="fileContent">The content of the file.</param>
+        public void AddFile(string name, byte[] fileContent)
         {
-            string defaultPath = Environment.CurrentDirectory + "/files/" + name;
-            if (path != null)
-            {
-                defaultPath = path;
-            }
-            File.WriteAllBytes(path, fileContent);
+            AddKey(name);
+
+            ReplicateFile(name, fileContent);
         }
 
     }

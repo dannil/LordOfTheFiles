@@ -27,7 +27,7 @@ namespace LordOfTheFiles
             if (ChordServer.RegisterService(port))
             {
                 ChordInstance instance = ChordServer.GetInstance(ChordServer.LocalNode);
-                instance.Join(new ChordNode("10.2.16.25", port), ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
+                instance.Join(null, ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
 
                 //String test = instance.FindKey(ChordServer.GetHash("hej"));
                 //System.Diagnostics.Debug.WriteLine(test);
@@ -73,15 +73,19 @@ namespace LordOfTheFiles
                 instance.FindKey(ChordServer.GetHash("babbababbabbabba"));
                 instance.FindKey(ChordServer.GetHash("zorro0"));
 
-                string filename = "helloworld.txt";
+                //string filename = "helloworld.txt";
 
-                byte[] file = instance.GetFile(filename);
+                //byte[] file = instance.GetFile(filename);
 
-                if (file != null)
-                {
-                    string path = Environment.CurrentDirectory + "/files/" + filename;
-                    File.WriteAllBytes(path, file);
-                }
+                //if (file != null)
+                //{
+                //    string path = Environment.CurrentDirectory + "/files/" + filename;
+                //    File.WriteAllBytes(path, file);
+                //}
+
+                string file = "helloworld.txt";
+
+                instance.AddFile(file,  File.ReadAllBytes(Environment.CurrentDirectory + "/" + file));
 
                 Console.ReadLine();
             }
