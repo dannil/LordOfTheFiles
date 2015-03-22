@@ -21,8 +21,10 @@ namespace LordOfTheFiles
             ChordServer.LocalNode = new ChordNode(ipAddressUtility.LocalIPv4.ToString(), ipAddressUtility.Port);
 
             System.Diagnostics.Debug.WriteLine(ipAddressUtility.LocalIPv4);
+            System.Diagnostics.Debug.WriteLine(ipAddressUtility.LocalIPv6);
 
-            System.Diagnostics.Debug.WriteLine(ChordServer.GetHash("hej"));
+            System.Diagnostics.Debug.WriteLine(ipAddressUtility.ExternalIPv4);
+            System.Diagnostics.Debug.WriteLine(ipAddressUtility.ExternalIPv6);
 
             if (ChordServer.RegisterService(ChordServer.LocalNode.PortNumber))
             {

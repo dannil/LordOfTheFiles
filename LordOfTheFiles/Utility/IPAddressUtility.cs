@@ -96,6 +96,38 @@ namespace LordOfTheFiles.Utility
             private set { }
         }
 
+        public IPAddress ExternalIPv4
+        {
+            get
+            {
+                try
+                {
+                    return IPAddress.Parse(new WebClient().DownloadString("http://v4.ipv6-test.com/api/myip.php"));
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            private set { }
+        }
+
+        public IPAddress ExternalIPv6
+        {
+            get
+            {
+                try
+                {
+                    return IPAddress.Parse(new WebClient().DownloadString("http://v6.ipv6-test.com/api/myip.php"));
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            private set { }
+        }
+
         public int Port
         {
             get { return port; }
