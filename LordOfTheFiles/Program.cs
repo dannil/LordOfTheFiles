@@ -8,6 +8,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.IO;
 using LordOfTheFiles.Manager;
+using LordOfTheFiles.Utility;
 
 namespace LordOfTheFiles
 {
@@ -15,21 +16,17 @@ namespace LordOfTheFiles
     {
         static void Main(string[] args)
         {
-            StorageManager storageManager;
+            IPAddressUtility ipAddressUtility = new IPAddressUtility();
 
-            int port = 8861;
+            ChordServer.LocalNode = new ChordNode(ipAddressUtility.LocalIPv4.ToString(), ipAddressUtility.Port);
 
-            string host = Dns.GetHostName();
-            IPHostEntry ipHost = Dns.GetHostEntry(host);
-            string ip = ipHost.AddressList[ipHost.AddressList.Length - 2].ToString();
-
-            ChordServer.LocalNode = new ChordNode(ip, port);
+            System.Diagnostics.Debug.WriteLine(ipAddressUtility.LocalIPv4);
 
             System.Diagnostics.Debug.WriteLine(ChordServer.GetHash("hej"));
 
-            if (ChordServer.RegisterService(port))
+            if (ChordServer.RegisterService(ChordServer.LocalNode.PortNumber))
             {
-                storageManager = new StorageManager();
+                StorageManager storageManager = new StorageManager();
                 storageManager.Instance.Join(null, ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
 
                 //String test = instance.FindKey(ChordServer.GetHash("hej"));
