@@ -33,7 +33,7 @@ namespace NChordLib
             ReplicateKey(key, value);
 
             // Replicate the key to a remote datastore
-            ReplicateRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+            ReplicateRemote(ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode, value);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace NChordLib
             // the node which initiated the request; otherwise stop the request.
             if (sourceNode.ID != ChordServer.LocalNode.ID)
             {
-                ReplicateRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
+                ReplicateRemote(ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode, value);
             }
         }
 
@@ -137,7 +137,7 @@ namespace NChordLib
         private void DeleteKeyRemote(string value, ChordNode remoteNode, ChordNode sourceNode)
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting value {0} on node {1}", value, remoteNode);
-            ChordServer.CallDeleteKey(value, remoteNode, sourceNode);
+            ChordServer.CallDeleteKey(remoteNode, sourceNode, value);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace NChordLib
         /// <param name="value">The value to replicate.</param>
         /// <param name="remoteNode">The node to send the request to.</param>
         /// <param name="sourceNode">The node which initiated the request.</param>
-        public void ReplicateRemote(string value, ChordNode remoteNode, ChordNode sourceNode)
+        public void ReplicateRemote(ChordNode remoteNode, ChordNode sourceNode, string value)
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Replicating value {0} on node {1}", value, remoteNode);
             ChordServer.CallAddKey(remoteNode, sourceNode, value);
@@ -195,7 +195,7 @@ namespace NChordLib
             // If the file couldn't be found, ask our successor for the file
             if (fileContent == null)
             {
-                byte[] remoteContent = FindFileRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+                byte[] remoteContent = FindFileRemote(ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode, value);
                 if (remoteContent != null)
                 {
                     // If the file was found on our successor, replicate the
@@ -243,7 +243,7 @@ namespace NChordLib
             // If the file couldn't be found, ask our successor for the file
             if (fileContent == null)
             {
-                byte[] remoteContent = FindFileRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
+                byte[] remoteContent = FindFileRemote(ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode, value);
                 if (remoteContent != null)
                 {
                     // If the file was found on our successor, replicate the
@@ -256,10 +256,10 @@ namespace NChordLib
             return fileContent;
         }
 
-        private byte[] FindFileRemote(string value, ChordNode remoteNode, ChordNode sourceNode)
+        private byte[] FindFileRemote(ChordNode remoteNode, ChordNode sourceNode, string value)
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for file with value {0} on node {1}", value, remoteNode);
-            return ChordServer.CallGetFile(remoteNode, sourceNode, value);
+            return ChordServer.CallFindFile(remoteNode, sourceNode, value);
         }
 
         /// <summary>
