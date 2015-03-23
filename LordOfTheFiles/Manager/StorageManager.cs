@@ -46,6 +46,15 @@ namespace LordOfTheFiles.Manager
         }
 
         /// <summary>
+        /// Delete a key from the storage
+        /// </summary>
+        /// <param name="value">The value associated with the key to be deleted.</param>
+        public void DeleteKey(string value)
+        {
+            instance.DeleteKey(value);
+        }
+
+        /// <summary>
         /// Add a file to the storage
         /// </summary>
         /// <param name="file">The file to be stored.</param>
@@ -76,6 +85,10 @@ namespace LordOfTheFiles.Manager
             return null;
         }
 
+        /// <summary>
+        /// Delete a file from the storage
+        /// </summary>
+        /// <param name="name">The name of the file.</param>
         public void DeleteFile(string name)
         {
             Thread keyThread = new Thread(() => instance.DeleteKey(name));
