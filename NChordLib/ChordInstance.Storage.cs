@@ -105,6 +105,41 @@ namespace NChordLib
             }
         }
 
+        private string FindKeyRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
+        {
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for key {0} on node {1}", key, remoteNode);
+            return ChordServer.CallFindKey(remoteNode, sourceNode, key);
+        }
+
+        public void DeleteKey(string value)
+        {
+            ulong key = ChordServer.GetHash(value);
+
+            ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting value {0} from local datastore", value);
+            this.dataStore.Remove(key);
+
+            DeleteKeyRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+        }
+
+        public void DeleteKey(string value, ChordNode sourceNode)
+        {
+            ulong key = ChordServer.GetHash(value);
+
+            ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting value {0} from local datastore", value);
+            this.dataStore.Remove(key);
+
+            if (sourceNode.ID != ChordServer.LocalNode.ID)
+            {
+                DeleteKeyRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
+            }
+        }
+
+        public void DeleteKeyRemote(string value, ChordNode remoteNode, ChordNode sourceNode)
+        {
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting value {0} on node {1}", value, remoteNode);
+            ChordServer.CallDeleteKey(value, remoteNode, sourceNode);
+        }
+
         /// <summary>
         /// Add the given key/value pair as replicas to the local store.
         /// </summary>
@@ -119,12 +154,6 @@ namespace NChordLib
                 ChordServer.Log(LogLevel.Info, "Local invoker", "Replicating value {0} to local datastore", value);
                 this.dataStore.Add(key, value);
             }
-        }
-
-        private string FindKeyRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
-        {
-            ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for key {0} on node {1}", key, remoteNode);
-            return ChordServer.CallFindKey(remoteNode, sourceNode, key);
         }
 
         /// <summary>
