@@ -78,7 +78,14 @@ namespace LordOfTheFiles.Manager
 
         public void DeleteFile(string name)
         {
-            instance.DeleteFile(name);
+            Thread keyThread = new Thread(() => instance.DeleteKey(name));
+            keyThread.Start();
+
+            Thread fileThread = new Thread(() => instance.DeleteFile(name));
+            fileThread.Start();
+
+            keyThread.Join();
+            fileThread.Join();
         }
 
         /// <summary>
