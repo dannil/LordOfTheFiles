@@ -115,21 +115,26 @@ namespace NChordLib
         {
             ulong key = ChordServer.GetHash(value);
 
-            ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting value {0} from local datastore", value);
-            this.dataStore.Remove(key);
+            if (this.dataStore.ContainsKey(key))
+            {
+                ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting value {0} from local datastore", value);
+                this.dataStore.Remove(key);
+            }
 
             DeleteKeyRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
         }
 
         public void DeleteKey(string value, ChordNode sourceNode)
         {
+            ulong key = ChordServer.GetHash(value);
+
             if (sourceNode.ID != ChordServer.LocalNode.ID)
             {
-                ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting value {0} from local datastore", value);
-
-                ulong key = ChordServer.GetHash(value);
-                this.dataStore.Remove(key);
-
+                if (this.dataStore.ContainsKey(key))
+                {
+                    ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting value {0} from local datastore", value);
+                    this.dataStore.Remove(key);
+                }
                 DeleteKeyRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
             }
         }
@@ -204,7 +209,7 @@ namespace NChordLib
                 }
                 return remoteContent;
             }
-            ChordServer.Log(LogLevel.Info, "Local Invoker", "Found file with value {0} on node {1}", key, ChordServer.LocalNode);
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Found file with value {0} on node {1}", value, ChordServer.LocalNode);
             return fileContent;
         }
 
@@ -252,7 +257,7 @@ namespace NChordLib
                 }
                 return remoteContent;
             }
-            ChordServer.Log(LogLevel.Info, "Local Invoker", "Found file with key {0} on node {1}", key, ChordServer.LocalNode);
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Found file with value {0} on node {1}", value, ChordServer.LocalNode);
             return fileContent;
         }
 
