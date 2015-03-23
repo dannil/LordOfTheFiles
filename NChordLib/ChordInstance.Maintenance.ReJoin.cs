@@ -95,6 +95,20 @@ namespace NChordLib
                                     ChordServer.Log(LogLevel.Error, "ReJoin", "Unable to contact initial seed node {0}.  Re-Joining...", this.m_SeedNode);
                                     Join(this.m_SeedNode, this.Host, this.Port);
                                 }
+                                else
+                                {
+                                    // TODO check if valid
+                                    for (int i = 0; i < SuccessorCache.Length; i++)
+                                    {
+                                        ChordNode cacheNode = SuccessorCache[i];
+                                        ChordInstance cacheInstance = ChordServer.GetInstance(cacheNode);
+                                        if (cacheNode.ID != this.m_SeedNode.ID && ChordServer.IsInstanceValid(cacheInstance))
+                                        {
+                                            ChordServer.Log(LogLevel.Info, "ReJoin", "Initial seed node invalid, rejoining on {0}...", cacheNode);
+                                            Join(cacheNode, this.Host, this.Port);
+                                        }
+                                    }
+                                }
 
                                 // otherwise, in the future, there will be a cache of seed nodes to check/join from...
                                 // as it may be the case that the seed node simply has disconnected from the network.
