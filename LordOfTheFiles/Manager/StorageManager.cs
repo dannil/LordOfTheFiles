@@ -16,16 +16,29 @@ namespace LordOfTheFiles.Manager
             instance = ChordServer.GetInstance(ChordServer.LocalNode);
         }
 
+        /// <summary>
+        /// Add a key to the storage
+        /// </summary>
+        /// <param name="value">The value to be stored.</param>
         public void AddKey(string value)
         {
             instance.AddKey(value);
         }
 
+        /// <summary>
+        /// Find a key in the storage
+        /// </summary>
+        /// <param name="key">The key to search for.</param>
+        /// <returns>The value associated with the specified key.</returns>
         public string FindKey(ulong key)
         {
             return instance.FindKey(key);
         }
 
+        /// <summary>
+        /// Add a file to the storage
+        /// </summary>
+        /// <param name="file">The file to be stored.</param>
         public void AddFile(File file)
         {
             Thread keyThread = new Thread(() => instance.AddKey(file.Name));
@@ -35,9 +48,19 @@ namespace LordOfTheFiles.Manager
             fileThread.Start();
         }
 
-        public byte[] FindFile(string name)
+        /// <summary>
+        /// Find a file in the storage
+        /// </summary>
+        /// <param name="name">The name of the file.</param>
+        /// <returns>A file if a file with the specified name exists; otherwise null.</returns>
+        public File FindFile(string name)
         {
-            return instance.FindFile(name);
+            byte[] content = instance.FindFile(name);
+            if (content != null)
+            {
+                return new File(name, content);
+            }
+            return null;
         }
 
         /// <summary>
