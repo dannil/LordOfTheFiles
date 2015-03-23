@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NChordLib;
 using System.Threading;
+using LordOfTheFiles.Model;
 
 namespace LordOfTheFiles.Manager
 {
@@ -25,12 +26,12 @@ namespace LordOfTheFiles.Manager
             return instance.FindKey(key);
         }
 
-        public void AddFile(string name, byte[] content)
+        public void AddFile(File file)
         {
-            Thread keyThread = new Thread(() => instance.AddKey(name));
+            Thread keyThread = new Thread(() => instance.AddKey(file.Name));
             keyThread.Start();
 
-            Thread fileThread = new Thread(() => instance.ReplicateFile(name, content));
+            Thread fileThread = new Thread(() => instance.ReplicateFile(file.Name, file.Content));
             fileThread.Start();
         }
 

@@ -6,9 +6,9 @@ using NChordLib;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.IO;
 using LordOfTheFiles.Manager;
 using LordOfTheFiles.Utility;
+using LordOfTheFiles.Model;
 
 namespace LordOfTheFiles
 {
@@ -85,9 +85,8 @@ namespace LordOfTheFiles
                 //    File.WriteAllBytes(path, file);
                 //}
 
-                string file = "helloworld.txt";
-
-                storageManager.AddFile(file, File.ReadAllBytes(Environment.CurrentDirectory + "/" + file));
+                File file = new File("helloworld.txt", FileUtility.ReadBytes(Environment.CurrentDirectory + "/files/" + "helloworld.txt"));
+                storageManager.AddFile(file);
 
                 Console.ReadLine();
             }

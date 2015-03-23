@@ -55,11 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\File.cs" />
+    <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Utility\IPAddressUtility.cs" />
     <Compile Include="Manager\StorageManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="sillyclasstrytopush.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NChordLib\NChordLib.csproj">
