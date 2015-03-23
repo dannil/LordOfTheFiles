@@ -102,7 +102,10 @@ namespace LordOfTheFiles.Utility
             {
                 try
                 {
-                    return IPAddress.Parse(new WebClient().DownloadString("http://v4.ipv6-test.com/api/myip.php"));
+                    using (WebClient client = new WebClient())
+                    {
+                        return IPAddress.Parse(client.DownloadString("http://v4.ipv6-test.com/api/myip.php"));
+                    }
                 }
                 catch
                 {
@@ -118,7 +121,10 @@ namespace LordOfTheFiles.Utility
             {
                 try
                 {
-                    return IPAddress.Parse(new WebClient().DownloadString("http://v6.ipv6-test.com/api/myip.php"));
+                    using (WebClient client = new WebClient())
+                    {
+                        return IPAddress.Parse(client.DownloadString("http://v6.ipv6-test.com/api/myip.php"));
+                    }
                 }
                 catch
                 {
