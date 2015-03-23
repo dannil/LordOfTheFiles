@@ -75,6 +75,8 @@ namespace LordOfTheFiles
                 storageManager.FindKey(ChordServer.GetHash("babbababbabbabba"));
                 storageManager.FindKey(ChordServer.GetHash("zorro0"));
 
+                storageManager.DeleteKey(ChordServer.GetHash("awijdaoiwd"));
+
                 //string filename = "helloworld.txt";
 
                 //byte[] file = instance.GetFile(filename);

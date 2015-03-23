@@ -111,38 +111,34 @@ namespace NChordLib
             return ChordServer.CallFindKey(remoteNode, sourceNode, key);
         }
 
-        public void DeleteKey(string value)
+        public void DeleteKey(ulong key)
         {
-            ulong key = ChordServer.GetHash(value);
-
             if (this.dataStore.ContainsKey(key))
             {
-                ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting value {0} from local datastore", value);
+                ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting key {0} from local datastore", key);
                 this.dataStore.Remove(key);
             }
 
-            DeleteKeyRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+            DeleteKeyRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
         }
 
-        public void DeleteKey(string value, ChordNode sourceNode)
+        public void DeleteKey(ulong key, ChordNode sourceNode)
         {
-            ulong key = ChordServer.GetHash(value);
-
             if (sourceNode.ID != ChordServer.LocalNode.ID)
             {
                 if (this.dataStore.ContainsKey(key))
                 {
-                    ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting value {0} from local datastore", value);
+                    ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting key {0} from local datastore", key);
                     this.dataStore.Remove(key);
                 }
-                DeleteKeyRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
+                DeleteKeyRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
             }
         }
 
-        private void DeleteKeyRemote(string value, ChordNode remoteNode, ChordNode sourceNode)
+        private void DeleteKeyRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
         {
-            ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting value {0} on node {1}", value, remoteNode);
-            ChordServer.CallDeleteKey(remoteNode, sourceNode, value);
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting key {0} from node {1}", key, remoteNode);
+            ChordServer.CallDeleteKey(remoteNode, sourceNode, key);
         }
 
         /// <summary>

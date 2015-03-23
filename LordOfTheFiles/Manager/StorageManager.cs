@@ -48,10 +48,10 @@ namespace LordOfTheFiles.Manager
         /// <summary>
         /// Delete a key from the storage
         /// </summary>
-        /// <param name="value">The value associated with the key to be deleted.</param>
-        public void DeleteKey(string value)
+        /// <param name="value">The the key to be deleted.</param>
+        public void DeleteKey(ulong key)
         {
-            instance.DeleteKey(value);
+            instance.DeleteKey(key);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace LordOfTheFiles.Manager
         /// <param name="name">The name of the file.</param>
         public void DeleteFile(string name)
         {
-            Thread keyThread = new Thread(() => instance.DeleteKey(name));
+            Thread keyThread = new Thread(() => instance.DeleteKey(ChordServer.GetHash(name)));
             keyThread.Start();
 
             Thread fileThread = new Thread(() => instance.DeleteFile(name));

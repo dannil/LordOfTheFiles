@@ -85,18 +85,18 @@ namespace NChordLib
             }
         }
 
-        public static void CallDeleteKey(ChordNode remoteNode, ChordNode sourceNode, string value)
+        public static void CallDeleteKey(ChordNode remoteNode, ChordNode sourceNode, ulong key)
         {
-            CallDeleteKey(remoteNode, sourceNode, value, 3);
+            CallDeleteKey(remoteNode, sourceNode, key, 3);
         }
 
-        public static void CallDeleteKey(ChordNode remoteNode, ChordNode sourceNode, string value, int retryCount)
+        public static void CallDeleteKey(ChordNode remoteNode, ChordNode sourceNode, ulong key, int retryCount)
         {
             ChordInstance instance = ChordServer.GetInstance(remoteNode);
 
             try
             {
-                instance.DeleteKey(value, sourceNode);
+                instance.DeleteKey(key, sourceNode);
             }
             catch (System.Exception ex)
             {
@@ -104,7 +104,7 @@ namespace NChordLib
 
                 if (retryCount > 0)
                 {
-                    CallDeleteKey(remoteNode, sourceNode, value, --retryCount);
+                    CallDeleteKey(remoteNode, sourceNode, key, --retryCount);
                 }
                 else
                 {
