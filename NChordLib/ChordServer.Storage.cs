@@ -156,5 +156,33 @@ namespace NChordLib
             }
         }
 
+        public static void CallDeleteFile(ChordNode remoteNode, ChordNode sourceNode, string name)
+        {
+            CallDeleteFile(remoteNode, sourceNode, name, 3);
+        }
+
+        public static void CallDeleteFile(ChordNode remoteNode, ChordNode sourceNode, string value, int retryCount)
+        {
+            ChordInstance instance = ChordServer.GetInstance(remoteNode);
+
+            try
+            {
+                instance.DeleteFile(value, sourceNode);
+            }
+            catch (System.Exception ex)
+            {
+                ChordServer.Log(LogLevel.Debug, "Remote Invoker", "CallDeleteFile error: {0}", ex.Message);
+
+                if (retryCount > 0)
+                {
+                    CallDeleteFile(remoteNode, sourceNode, value, --retryCount);
+                }
+                else
+                {
+                    ChordServer.Log(LogLevel.Debug, "Remote Invoker", "CallDeleteFile failed - error: {0}", ex.Message);
+                }
+            }
+        }
+
     }
 }

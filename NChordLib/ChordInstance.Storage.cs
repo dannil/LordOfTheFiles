@@ -246,5 +246,29 @@ namespace NChordLib
             File.WriteAllBytes(path, fileContent);
         }
 
+        public void DeleteFile(string name)
+        {
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting file with name {0} on local node", name);
+            File.Delete(Environment.CurrentDirectory + "/files/" + name);
+
+            DeleteFileRemote(name, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+        }
+
+        public void DeleteFile(string name, ChordNode sourceNode)
+        {
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting file with name {0} on local node", name);
+            File.Delete(Environment.CurrentDirectory + "/files/" + name);
+
+            if (sourceNode.ID != ChordServer.LocalNode.ID)
+            {
+                DeleteFileRemote(name, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
+            }
+        }
+
+        public void DeleteFileRemote(string name, ChordNode remoteNode, ChordNode sourceNode)
+        {
+            ChordServer.CallDeleteFile(remoteNode, sourceNode, name);
+        }
+
     }
 }

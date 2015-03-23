@@ -76,6 +76,11 @@ namespace LordOfTheFiles.Manager
             return null;
         }
 
+        public void DeleteFile(string name)
+        {
+            instance.DeleteFile(name);
+        }
+
         /// <summary>
         /// Returns the instance of the local ChordNode
         /// </summary>
