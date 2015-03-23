@@ -88,6 +88,8 @@ namespace LordOfTheFiles
                 File file = new File("helloworld.txt", FileUtility.ReadBytes(Environment.CurrentDirectory + "/files/" + "helloworld.txt"));
                 storageManager.AddFile(file);
 
+                File file2 = storageManager.FindFile("helloworld.txt");
+
                 Console.ReadLine();
             }
         }
