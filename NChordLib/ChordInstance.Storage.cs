@@ -123,13 +123,13 @@ namespace NChordLib
 
         public void DeleteKey(string value, ChordNode sourceNode)
         {
-            ulong key = ChordServer.GetHash(value);
-
-            ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting value {0} from local datastore", value);
-            this.dataStore.Remove(key);
-
             if (sourceNode.ID != ChordServer.LocalNode.ID)
             {
+                ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting value {0} from local datastore", value);
+
+                ulong key = ChordServer.GetHash(value);
+                this.dataStore.Remove(key);
+
                 DeleteKeyRemote(value, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
             }
         }
@@ -285,11 +285,11 @@ namespace NChordLib
 
         public void DeleteFile(string name, ChordNode sourceNode)
         {
-            ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting file with name {0} on local node", name);
-            File.Delete(Environment.CurrentDirectory + "/files/" + name);
-
             if (sourceNode.ID != ChordServer.LocalNode.ID)
             {
+                ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting file with name {0} on local node", name);
+                File.Delete(Environment.CurrentDirectory + "/files/" + name);
+
                 DeleteFileRemote(name, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
             }
         }

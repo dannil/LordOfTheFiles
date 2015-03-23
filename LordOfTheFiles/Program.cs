@@ -91,6 +91,10 @@ namespace LordOfTheFiles
                 File file2 = storageManager.FindFile("helloworld.txt");
 
                 Console.ReadLine();
+
+                storageManager.DeleteFile("helloworld.txt");
+
+                Console.ReadLine();
             }
         }
     }
