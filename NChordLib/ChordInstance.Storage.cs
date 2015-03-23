@@ -134,7 +134,7 @@ namespace NChordLib
             }
         }
 
-        public void DeleteKeyRemote(string value, ChordNode remoteNode, ChordNode sourceNode)
+        private void DeleteKeyRemote(string value, ChordNode remoteNode, ChordNode sourceNode)
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting value {0} on node {1}", value, remoteNode);
             ChordServer.CallDeleteKey(value, remoteNode, sourceNode);
@@ -294,8 +294,9 @@ namespace NChordLib
             }
         }
 
-        public void DeleteFileRemote(string name, ChordNode remoteNode, ChordNode sourceNode)
+        private void DeleteFileRemote(string name, ChordNode remoteNode, ChordNode sourceNode)
         {
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting file with name {0} on node {1}", name, remoteNode);
             ChordServer.CallDeleteFile(remoteNode, sourceNode, name);
         }
 
