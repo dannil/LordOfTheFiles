@@ -7,10 +7,20 @@ using LordOfTheFiles.Model;
 
 namespace LordOfTheFiles.Manager
 {
+    /// <summary>
+    /// Manager which handles all operations for storage. This includes finding a
+    /// file, saving a file and searching the DHT (Distributed hash table). 
+    /// 
+    /// More essentially, this class serves as an abstraction layer between the 
+    /// NChord library and the program itself.
+    /// </summary>
     public class StorageManager
     {
         private ChordInstance instance;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public StorageManager()
         {
             instance = ChordServer.GetInstance(ChordServer.LocalNode);
@@ -46,6 +56,9 @@ namespace LordOfTheFiles.Manager
 
             Thread fileThread = new Thread(() => instance.ReplicateFile(file.Name, file.Content));
             fileThread.Start();
+
+            keyThread.Join();
+            fileThread.Join();
         }
 
         /// <summary>
