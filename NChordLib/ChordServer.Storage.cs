@@ -1,9 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NChordLib
 {
     public static partial class ChordServer
     {
+        public static SortedList<ulong, string> CallGetDHT(ChordNode remoteNode, ChordNode sourceNode)
+        {
+            return CallGetDHT(remoteNode, sourceNode);
+        }
+
+        public static SortedList<ulong, string> CallGetDHT(ChordNode remoteNode, ChordNode sourceNode, int retryCount)
+        {
+            ChordInstance instance = ChordServer.GetInstance(remoteNode);
+
+            try
+            {
+                return instance.GetDHT(sourceNode);
+            }
+            catch (System.Exception ex)
+            {
+                ChordServer.Log(LogLevel.Debug, "Remote Invoker", "CallGetDHT error: {0}", ex.Message);
+
+                if (retryCount > 0)
+                {
+                    return CallGetDHT(remoteNode, sourceNode, --retryCount);
+                }
+                else
+                {
+                    ChordServer.Log(LogLevel.Debug, "Remote Invoker", "CallGetDHT failed - error: {0}", ex.Message);
+                    return null;
+                }
+            }
+        }
+
         /// <summary>
         /// Calls AddKey() remotely, using a default retry value of three.
         /// </summary>

@@ -21,6 +21,47 @@ namespace NChordLib
         /// </summary>
         private SortedList<ulong, string> dataStore = new SortedList<ulong, string>();
 
+        public SortedList<ulong, string> GetDHT()
+        {
+            SortedList<ulong, string> temp = GetDHTRemote(ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
+            
+            foreach (KeyValuePair<ulong, string> pair in dataStore)
+            {
+                if (!temp.ContainsKey(pair.Key))
+                {
+                    temp.Add(pair.Key, pair.Value);
+                }
+            }
+
+            dataStore = temp;
+
+            return temp;
+        }
+
+        public SortedList<ulong, string> GetDHT(ChordNode sourceNode)
+        {
+            if (sourceNode.ID != ChordServer.LocalNode.ID)
+            {
+                SortedList<ulong, string> temp = GetDHTRemote(ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
+
+                foreach (KeyValuePair<ulong, string> pair in dataStore)
+                {
+                    if (!temp.ContainsKey(pair.Key))
+                    {
+                        temp.Add(pair.Key, pair.Value);
+                    }
+                }
+
+                return temp;
+            }
+            return dataStore;
+        }
+
+        public SortedList<ulong, string> GetDHTRemote(ChordNode remoteNode, ChordNode sourceNode)
+        {
+            return ChordServer.CallGetDHT(remoteNode, sourceNode);
+        }
+
         /// <summary>
         /// Add a key-value pair to the ring.
         /// </summary>
