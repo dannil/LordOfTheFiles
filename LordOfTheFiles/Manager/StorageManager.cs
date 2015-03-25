@@ -26,6 +26,11 @@ namespace LordOfTheFiles.Manager
             instance = ChordServer.GetInstance(ChordServer.LocalNode);
         }
 
+        public SortedList<ulong, string> GetDHT()
+        {
+            return instance.GetDHT();
+        }
+
         /// <summary>
         /// Add a key to the storage
         /// </summary>

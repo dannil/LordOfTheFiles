@@ -7,7 +7,7 @@ namespace NChordLib
     {
         public static SortedList<ulong, string> CallGetDHT(ChordNode remoteNode, ChordNode sourceNode)
         {
-            return CallGetDHT(remoteNode, sourceNode);
+            return CallGetDHT(remoteNode, sourceNode, 3);
         }
 
         public static SortedList<ulong, string> CallGetDHT(ChordNode remoteNode, ChordNode sourceNode, int retryCount)

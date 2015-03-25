@@ -21,6 +21,10 @@ namespace NChordLib
         /// </summary>
         private SortedList<ulong, string> dataStore = new SortedList<ulong, string>();
 
+        /// <summary>
+        /// Synchronizes the distributed hash table throughout the network
+        /// </summary>
+        /// <returns>The distributed hash table for the entire network.</returns>
         public SortedList<ulong, string> GetDHT()
         {
             SortedList<ulong, string> temp = GetDHTRemote(ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
@@ -38,6 +42,12 @@ namespace NChordLib
             return temp;
         }
 
+        /// <summary>
+        /// Synchronizes the distributed hash table throughout the network with the
+        /// source node specified
+        /// </summary>
+        /// <param name="sourceNode">The chord node which initiated the request.</param>
+        /// <returns>The distributed hash table for the currently traversed nodes.</returns>
         public SortedList<ulong, string> GetDHT(ChordNode sourceNode)
         {
             if (sourceNode.ID != ChordServer.LocalNode.ID)
@@ -57,6 +67,12 @@ namespace NChordLib
             return dataStore;
         }
 
+        /// <summary>
+        /// Call the distributed hash table synchronization remotely
+        /// </summary>
+        /// <param name="remoteNode">The node to invoke the GetDHT() operation.</param>
+        /// <param name="sourceNode">The source node which initiated the request.</param>
+        /// <returns>The distributed hash table for each node currently traversed.</returns>
         public SortedList<ulong, string> GetDHTRemote(ChordNode remoteNode, ChordNode sourceNode)
         {
             return ChordServer.CallGetDHT(remoteNode, sourceNode);
