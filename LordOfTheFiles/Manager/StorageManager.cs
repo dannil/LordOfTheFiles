@@ -4,6 +4,8 @@ using System.Text;
 using NChordLib;
 using System.Threading;
 using LordOfTheFiles.Model;
+using LordOfTheFiles.Utility;
+using System.Xml.Serialization;
 
 namespace LordOfTheFiles.Manager
 {
@@ -28,7 +30,11 @@ namespace LordOfTheFiles.Manager
 
         public SortedList<ulong, string> GetDHT()
         {
-            return instance.GetDHT();
+            SortedList<ulong, string> dht = instance.GetDHT();
+
+            System.IO.File.WriteAllText("dht.xml", XMLUtility.DHTToXML(dht));
+
+            return dht;
         }
 
         /// <summary>

@@ -6,7 +6,7 @@
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8F2303A7-448C-4F4B-BF2C-4393270CDA44}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LordOfTheFiles</RootNamespace>
     <AssemblyName>LordOfTheFiles</AssemblyName>
@@ -60,12 +60,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Item.cs" />
     <Compile Include="Model\File.cs" />
     <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Utility\IPAddressUtility.cs" />
     <Compile Include="Manager\StorageManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\XMLUtility.cs" />
     <Compile Include="Window\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
