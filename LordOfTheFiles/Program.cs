@@ -33,6 +33,8 @@ namespace LordOfTheFiles
                 StorageManager storageManager = new StorageManager();
                 storageManager.Instance.Join(null, ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
 
+                Console.ReadLine();
+
                 for (int i = 0; i < 1; i++)
                 {
                     storageManager.AddKey("hej" + i);
@@ -49,6 +51,19 @@ namespace LordOfTheFiles
                     storageManager.AddKey("stikkan" + i);
                 }
 
+                //SortedList<ulong, string> list = new SortedList<ulong,string>()
+                //{
+                //    { 1234, "test" },
+                //};
+                //System.IO.File.WriteAllText("dht.xml", XMLUtility.DHTToXML(list));
+
+                Console.ReadLine();
+
+                storageManager.GetDHT();
+
+                Console.ReadLine();
+                Console.ReadLine();
+                Console.ReadLine();
                 Console.ReadLine();
             }
         }

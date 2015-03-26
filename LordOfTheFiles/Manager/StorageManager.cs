@@ -28,13 +28,47 @@ namespace LordOfTheFiles.Manager
             instance = ChordServer.GetInstance(ChordServer.LocalNode);
         }
 
+        /// <summary>
+        /// Synchronizes the distributed hash table throughout the network. Besides fetching the distributed
+        /// hash table, this method also synchronizes our local hash table to the network, as we can't be sure if
+        /// this node is the creator of a new ring. Also helps consistency throughout the distributed hash table
+        /// when traversing every node
+        /// </summary>
         public void GetDHT()
         {
-            System.IO.File.WriteAllText("dht.xml", XMLUtility.DHTToXML(instance.GetDHT()));
+            SortedList<ulong, string> networkDht = instance.GetDHT();
+
+            if (System.IO.File.Exists("dht.xml"))
+            {
+                // We already have a local DHT; we need to merge and sync this file to the network
+                SortedList<ulong, string> localDht = XMLUtility.DHTFromXML("dht.xml");
+
+                foreach (KeyValuePair<ulong, string> pair in networkDht)
+                {
+                    // Merge process: every key in the network DHT that isn't present
+                    // in our local DHT should be added to our local DHT
+                    if (!localDht.ContainsKey(pair.Key))
+                    {
+                        localDht.Add(pair.Key, pair.Value);
+                    }
+                }
+
+                System.IO.File.WriteAllText("dht.xml", XMLUtility.DHTToXML(localDht));
+
+                foreach (string value in localDht.Values)
+                {
+                    AddKey(value);
+                }
+            }
+            else if (networkDht.Count > 0)
+            {
+                // We didn't have a local DHT; simply fetch the network DHT if there's one present
+                System.IO.File.WriteAllText("dht.xml", XMLUtility.DHTToXML(networkDht));
+            }
         }
 
         /// <summary>
-        /// Add a key to the storage
+        /// Add a key-value pair to the storage
         /// </summary>
         /// <param name="value">The value to be stored.</param>
         public void AddKey(string value)
