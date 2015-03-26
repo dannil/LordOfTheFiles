@@ -31,5 +31,27 @@ namespace LordOfTheFiles.Window
 
             string search = searchForm.SearchText;
         }
+
+        private void lvFiles_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (lvFiles.FocusedItem.Bounds.Contains(e.Location) == true)
+                {
+                    cms_Download.Show(Cursor.Position);
+
+                }
+            }
+        }
+
+        private void mnuAdd_Click(object sender, EventArgs e)
+        {
+            //Exemple på hur man addar till listView och adda till alla sub columens 
+            //string[] row1 =     {"File Type" , "File Size"};
+            //lvFiles.Items.Add("File Namn").SubItems.AddRange(row1);
+        
+        }
+
+
     }
 }
