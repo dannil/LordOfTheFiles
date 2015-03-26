@@ -28,13 +28,9 @@ namespace LordOfTheFiles.Manager
             instance = ChordServer.GetInstance(ChordServer.LocalNode);
         }
 
-        public SortedList<ulong, string> GetDHT()
+        public void GetDHT()
         {
-            SortedList<ulong, string> dht = instance.GetDHT();
-
-            System.IO.File.WriteAllText("dht.xml", XMLUtility.DHTToXML(dht));
-
-            return dht;
+            System.IO.File.WriteAllText("dht.xml", XMLUtility.DHTToXML(instance.GetDHT()));
         }
 
         /// <summary>
