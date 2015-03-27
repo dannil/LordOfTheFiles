@@ -15,7 +15,9 @@ namespace LordOfTheFiles.Window
 {
     public partial class MainForm : Form
     {
-        private List<ListViewItem> items;
+        private ListViewItem focusedItem;
+
+        private List<string[]> items;
 
         private StorageManager storageManager;
 
@@ -23,12 +25,14 @@ namespace LordOfTheFiles.Window
         {
             InitializeComponent();
 
-            items = new List<ListViewItem>();
+            items = new List<string[]>();
 
             storageManager = new StorageManager();
 
             ChordNode local = ChordServer.LocalNode;
             storageManager.Instance.Join(null, local.Host, local.PortNumber);
+
+            UpdateFileList();
         }
 
         private void mnuSearch_Click(object sender, EventArgs e)
@@ -43,10 +47,11 @@ namespace LordOfTheFiles.Window
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (lvFiles.FocusedItem.Bounds.Contains(e.Location) == true)
+                ListViewItem focusedItem = lvFiles.FocusedItem;
+                if (focusedItem.Bounds.Contains(e.Location) == true)
                 {
-                    cmsDownload.Show(Cursor.Position);
-
+                    this.focusedItem = focusedItem;
+                    cmsFile.Show(Cursor.Position);
                 }
             }
         }
@@ -63,13 +68,17 @@ namespace LordOfTheFiles.Window
                 storageManager.AddFile(file);
                 UpdateFileList();
             }
+        }
 
-            //File file = new File("helloworld.txt", FileUtility.ReadBytes(Environment.CurrentDirectory + "/files/" + "helloworld.txt"));
+        private void mnuRefresh_Click(object sender, EventArgs e)
+        {
+            UpdateFileList();
+        }
 
-            //Exemple på hur man addar till listView och adda till alla sub columens 
-            //string[] row1 =     {"File Type" , "File Size"};
-            //lvFiles.Items.Add("File Namn").SubItems.AddRange(row1);
-        
+        private void cmsFileDownload_Click(object sender, EventArgs e)
+        {
+            ListViewItem item = focusedItem;
+            storageManager.FindFile(items[item.Index][0] + items[item.Index][1]);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -81,22 +90,20 @@ namespace LordOfTheFiles.Window
         {
             SortedList<ulong, string> tempDht = storageManager.GetDHT();
 
-            items = new List<ListViewItem>();
+            items = new List<string[]>();
 
             foreach (string value in tempDht.Values)
             {
-                ListViewItem item = new ListViewItem(new string[] { Path.GetFileNameWithoutExtension(value), Path.GetExtension(value) });
-                items.Add(item);
+                items.Add(new string[] { Path.GetFileNameWithoutExtension(value), Path.GetExtension(value) }); 
             }
 
             lvFiles.Items.Clear();
 
-            foreach (ListViewItem item in items)
+            foreach (string[] item in items)
             {
-                lvFiles.Items.Add(item);
+                lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1] }));
             }
         }
-
 
     }
 }

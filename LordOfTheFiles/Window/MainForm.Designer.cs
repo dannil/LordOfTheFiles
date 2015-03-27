@@ -40,10 +40,10 @@
             this.chFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ch_FileExtension = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chFileSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.cmsDownload = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.downloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsFile = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmsFileDownload = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMenu.SuspendLayout();
-            this.cmsDownload.SuspendLayout();
+            this.cmsFile.SuspendLayout();
             this.SuspendLayout();
             // 
             // mnuMenu
@@ -83,6 +83,7 @@
             this.mnuRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.mnuRefresh.Size = new System.Drawing.Size(158, 22);
             this.mnuRefresh.Text = "Refresh";
+            this.mnuRefresh.Click += new System.EventHandler(this.mnuRefresh_Click);
             // 
             // mnuSearch
             // 
@@ -132,18 +133,19 @@
             this.chFileSize.Text = "Size";
             this.chFileSize.Width = 87;
             // 
-            // cmsDownload
+            // cmsFile
             // 
-            this.cmsDownload.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.downloadToolStripMenuItem});
-            this.cmsDownload.Name = "contextMenuStrip1";
-            this.cmsDownload.Size = new System.Drawing.Size(153, 48);
+            this.cmsFile.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmsFileDownload});
+            this.cmsFile.Name = "contextMenuStrip1";
+            this.cmsFile.Size = new System.Drawing.Size(129, 26);
             // 
-            // downloadToolStripMenuItem
+            // cmsFileDownload
             // 
-            this.downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
-            this.downloadToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
-            this.downloadToolStripMenuItem.Text = "Download";
+            this.cmsFileDownload.Name = "cmsFileDownload";
+            this.cmsFileDownload.Size = new System.Drawing.Size(128, 22);
+            this.cmsFileDownload.Text = "Download";
+            this.cmsFileDownload.Click += new System.EventHandler(this.cmsFileDownload_Click);
             // 
             // MainForm
             // 
@@ -158,7 +160,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.mnuMenu.ResumeLayout(false);
             this.mnuMenu.PerformLayout();
-            this.cmsDownload.ResumeLayout(false);
+            this.cmsFile.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -177,7 +179,7 @@
         private System.Windows.Forms.ColumnHeader chFileName;
         private System.Windows.Forms.ColumnHeader ch_FileExtension;
         private System.Windows.Forms.ColumnHeader chFileSize;
-        private System.Windows.Forms.ContextMenuStrip cmsDownload;
-        private System.Windows.Forms.ToolStripMenuItem downloadToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip cmsFile;
+        private System.Windows.Forms.ToolStripMenuItem cmsFileDownload;
     }
 }
