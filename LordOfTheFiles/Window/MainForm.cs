@@ -32,6 +32,7 @@ namespace LordOfTheFiles.Window
             ChordNode local = ChordServer.LocalNode;
             storageManager.Instance.Join(null, local.Host, local.PortNumber);
 
+            SynchronizeLocalDHTToNetwork();
             UpdateFileList();
         }
 
@@ -77,7 +78,10 @@ namespace LordOfTheFiles.Window
 
         private void mnuAddNode_Click(object sender, EventArgs e)
         {
+            ListViewItem item = lvFiles.Items[0];
+            storageManager.DeleteFile(items[item.Index][0] + "." + items[item.Index][1]);
 
+            UpdateFileList();
         }
 
         private void cmsFileDownload_Click(object sender, EventArgs e)
@@ -124,6 +128,15 @@ namespace LordOfTheFiles.Window
             foreach (string[] item in items)
             {
                 lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1], (item[2] != null ? item[2] : "") }));
+            }
+        }
+
+        private void SynchronizeLocalDHTToNetwork()
+        {
+            SortedList<ulong, string> localDht = XMLUtility.DHTFromXML(FileUtility.REF_DIR + "dht.xml");
+            foreach (string value in localDht.Values)
+            {
+                storageManager.AddKey(value);
             }
         }
 

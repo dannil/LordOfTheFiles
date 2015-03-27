@@ -37,7 +37,29 @@ namespace LordOfTheFiles.Manager
         public SortedList<ulong, string> GetDHT()
         {
             SortedList<ulong, string> networkDht = instance.GetDHT();
+            if (System.IO.File.Exists(FileUtility.REF_DIR + "dht.xml"))
+            {
+                // We already have a local DHT; we need to merge and sync this file to the network
+                SortedList<ulong, string> localDht = XMLUtility.DHTFromXML(FileUtility.REF_DIR + "dht.xml");
+                foreach (KeyValuePair<ulong, string> pair in networkDht)
+                {
+                    // Merge process: every key in the network DHT that isn't present
+                    // in our local DHT should be added to our local DHT
+                    if (!localDht.ContainsKey(pair.Key))
+                    {
+                        localDht.Add(pair.Key, pair.Value);
+                    }
+                }
 
+                // Not sure if needed
+                if (localDht.Count < networkDht.Count)
+                {
+                    foreach (string value in localDht.Values)
+                    {
+                        AddKey(value);
+                    }
+                }
+            }
             System.IO.File.WriteAllText(FileUtility.REF_DIR + "dht.xml", XMLUtility.DHTToXML(networkDht));
 
             return networkDht;
