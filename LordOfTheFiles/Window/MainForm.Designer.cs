@@ -154,6 +154,7 @@
             this.MainMenuStrip = this.mnuMenu;
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.mnuMenu.ResumeLayout(false);
             this.mnuMenu.PerformLayout();
             this.cms_Download.ResumeLayout(false);

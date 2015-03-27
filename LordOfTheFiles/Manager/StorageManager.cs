@@ -34,7 +34,7 @@ namespace LordOfTheFiles.Manager
         /// this node is the creator of a new ring. Also helps consistency throughout the distributed hash table
         /// when traversing every node
         /// </summary>
-        public void GetDHT()
+        public SortedList<ulong, string> GetDHT()
         {
             SortedList<ulong, string> networkDht = instance.GetDHT();
 
@@ -55,16 +55,21 @@ namespace LordOfTheFiles.Manager
 
                 System.IO.File.WriteAllText("dht.xml", XMLUtility.DHTToXML(localDht));
 
+                // TODO
+                // Not sure if needed, investigation needed...
                 foreach (string value in localDht.Values)
                 {
                     AddKey(value);
                 }
+
+                return localDht;
             }
             else if (networkDht.Count > 0)
             {
                 // We didn't have a local DHT; simply fetch the network DHT if there's one present
                 System.IO.File.WriteAllText("dht.xml", XMLUtility.DHTToXML(networkDht));
             }
+            return networkDht;
         }
 
         /// <summary>

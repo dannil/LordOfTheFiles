@@ -16,6 +16,7 @@ namespace LordOfTheFiles
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             IPAddressUtility ipAddressUtility = new IPAddressUtility();
@@ -24,32 +25,32 @@ namespace LordOfTheFiles
 
             if (ChordServer.RegisterService(ChordServer.LocalNode.PortNumber))
             {
-                //Application.EnableVisualStyles();
-                //Application.SetCompatibleTextRenderingDefault(false);
-                //Application.Run(new MainForm());
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainForm());
 
                 // Debugging code
 
-                StorageManager storageManager = new StorageManager();
-                storageManager.Instance.Join(null, ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
+                //StorageManager storageManager = new StorageManager();
+                //storageManager.Instance.Join(null, ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
 
-                Console.ReadLine();
+                //Console.ReadLine();
 
-                for (int i = 0; i < 1; i++)
-                {
-                    storageManager.AddKey("hej" + i);
-                    storageManager.AddKey("abcdefg" + i);
-                    storageManager.AddKey("tjenare hassan" + i);
-                    storageManager.AddKey("detta e ball" + i);
-                    storageManager.AddKey("12345" + i);
-                    storageManager.AddKey("etttvåtrefyra" + i);
-                    storageManager.AddKey("aloevero" + i);
-                    storageManager.AddKey("marker" + i);
-                    storageManager.AddKey("mus" + i);
-                    storageManager.AddKey("skärm" + i);
-                    storageManager.AddKey("bertil" + i);
-                    storageManager.AddKey("stikkan" + i);
-                }
+                //for (int i = 0; i < 1; i++)
+                //{
+                //    storageManager.AddKey("hej" + i);
+                //    storageManager.AddKey("abcdefg" + i);
+                //    storageManager.AddKey("tjenare hassan" + i);
+                //    storageManager.AddKey("detta e ball" + i);
+                //    storageManager.AddKey("12345" + i);
+                //    storageManager.AddKey("etttvåtrefyra" + i);
+                //    storageManager.AddKey("aloevero" + i);
+                //    storageManager.AddKey("marker" + i);
+                //    storageManager.AddKey("mus" + i);
+                //    storageManager.AddKey("skärm" + i);
+                //    storageManager.AddKey("bertil" + i);
+                //    storageManager.AddKey("stikkan" + i);
+                //}
 
                 //SortedList<ulong, string> list = new SortedList<ulong,string>()
                 //{
@@ -58,8 +59,6 @@ namespace LordOfTheFiles
                 //System.IO.File.WriteAllText("dht.xml", XMLUtility.DHTToXML(list));
 
                 Console.ReadLine();
-
-                storageManager.GetDHT();
 
                 Console.ReadLine();
                 Console.ReadLine();
