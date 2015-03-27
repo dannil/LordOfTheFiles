@@ -11,6 +11,7 @@ namespace LordOfTheFiles.Utility
     public class FileUtility
     {
         public static string FILES_DIR = Environment.CurrentDirectory + "/files/";
+        public static string REF_DIR = Environment.CurrentDirectory + "/ref/";
 
         public static byte[] ReadBytes(string path)
         {

@@ -38,7 +38,7 @@ namespace LordOfTheFiles.Manager
         {
             SortedList<ulong, string> networkDht = instance.GetDHT();
 
-            System.IO.File.WriteAllText("dht.xml", XMLUtility.DHTToXML(networkDht));
+            System.IO.File.WriteAllText(FileUtility.REF_DIR + "dht.xml", XMLUtility.DHTToXML(networkDht));
 
             return networkDht;
         }

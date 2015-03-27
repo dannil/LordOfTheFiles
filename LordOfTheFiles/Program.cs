@@ -12,6 +12,7 @@ using LordOfTheFiles.Model;
 using LordOfTheFiles.Window;
 using System.Windows.Forms;
 using System.Reflection;
+using System.IO;
 
 namespace LordOfTheFiles
 {
@@ -20,6 +21,10 @@ namespace LordOfTheFiles
         [STAThread]
         static void Main(string[] args)
         {
+            // Initialize directories
+            Directory.CreateDirectory(FileUtility.FILES_DIR);
+            Directory.CreateDirectory(FileUtility.REF_DIR);
+
             IPAddressUtility ipAddressUtility = new IPAddressUtility();
 
             ChordServer.LocalNode = new ChordNode(ipAddressUtility.LocalIPv4.ToString(), ipAddressUtility.Port);
