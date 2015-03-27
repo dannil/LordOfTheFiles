@@ -51,7 +51,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>LordOfTheFiles.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ByteSize">
@@ -104,8 +107,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icon.ico" />
     <Content Include="Resources\Background.jpg" />
     <Content Include="Resources\HighligtedButtom.jpg" />
+    <Content Include="Resources\Icon.ico" />
     <Content Include="Resources\NormalButtom.jpg" />
   </ItemGroup>
   <ItemGroup>

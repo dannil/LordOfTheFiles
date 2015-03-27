@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mnuMenu = new System.Windows.Forms.MenuStrip();
             this.mnuMenuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAdd = new System.Windows.Forms.ToolStripMenuItem();
@@ -159,19 +160,19 @@
             this.cmsFileDownload,
             this.cmsFileDelete});
             this.cmsFile.Name = "contextMenuStrip1";
-            this.cmsFile.Size = new System.Drawing.Size(153, 70);
+            this.cmsFile.Size = new System.Drawing.Size(129, 48);
             // 
             // cmsFileDownload
             // 
             this.cmsFileDownload.Name = "cmsFileDownload";
-            this.cmsFileDownload.Size = new System.Drawing.Size(152, 22);
+            this.cmsFileDownload.Size = new System.Drawing.Size(128, 22);
             this.cmsFileDownload.Text = "Download";
             this.cmsFileDownload.Click += new System.EventHandler(this.cmsFileDownload_Click);
             // 
             // cmsFileDelete
             // 
             this.cmsFileDelete.Name = "cmsFileDelete";
-            this.cmsFileDelete.Size = new System.Drawing.Size(152, 22);
+            this.cmsFileDelete.Size = new System.Drawing.Size(128, 22);
             this.cmsFileDelete.Text = "Delete";
             this.cmsFileDelete.Click += new System.EventHandler(this.cmsFileDelete_Click);
             // 
@@ -182,6 +183,7 @@
             this.ClientSize = new System.Drawing.Size(517, 290);
             this.Controls.Add(this.lvFiles);
             this.Controls.Add(this.mnuMenu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mnuMenu;
             this.Name = "MainForm";
             this.Text = "MainForm";
