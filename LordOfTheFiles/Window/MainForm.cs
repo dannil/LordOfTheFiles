@@ -101,11 +101,11 @@ namespace LordOfTheFiles.Window
             {
                 if (System.IO.File.Exists(FileUtility.FILES_DIR + value))
                 {
-                    items.Add(new string[] { Path.GetFileNameWithoutExtension(value), Path.GetExtension(value), FileUtility.GetFileSize(FileUtility.FILES_DIR + value).ToString() });
+                    items.Add(new string[] { Path.GetFileNameWithoutExtension(value), Path.GetExtension(value).Substring(1), FileUtility.GetFileSize(FileUtility.FILES_DIR + value).ToString() });
                 }
                 else
                 {
-                    items.Add(new string[] { Path.GetFileNameWithoutExtension(value), Path.GetExtension(value) });
+                    items.Add(new string[] { Path.GetFileNameWithoutExtension(value), Path.GetExtension(value).Substring(1) });
                 }
             }
 
