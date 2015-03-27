@@ -83,7 +83,7 @@ namespace LordOfTheFiles.Window
         private void cmsFileDownload_Click(object sender, EventArgs e)
         {
             ListViewItem item = focusedItem;
-            storageManager.FindFile(items[item.Index][0] + items[item.Index][1]);
+            storageManager.FindFile(items[item.Index][0] + "." + items[item.Index][1]);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
