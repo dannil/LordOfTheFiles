@@ -11,6 +11,7 @@ using LordOfTheFiles.Utility;
 using LordOfTheFiles.Model;
 using LordOfTheFiles.Window;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace LordOfTheFiles
 {
