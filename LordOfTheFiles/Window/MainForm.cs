@@ -75,6 +75,11 @@ namespace LordOfTheFiles.Window
             UpdateFileList();
         }
 
+        private void mnuAddNode_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void cmsFileDownload_Click(object sender, EventArgs e)
         {
             ListViewItem item = focusedItem;
@@ -94,14 +99,21 @@ namespace LordOfTheFiles.Window
 
             foreach (string value in tempDht.Values)
             {
-                items.Add(new string[] { Path.GetFileNameWithoutExtension(value), Path.GetExtension(value) }); 
+                if (System.IO.File.Exists(FileUtility.FILES_DIR + value))
+                {
+                    items.Add(new string[] { Path.GetFileNameWithoutExtension(value), Path.GetExtension(value), FileUtility.GetFileSize(FileUtility.FILES_DIR + value).ToString() });
+                }
+                else
+                {
+                    items.Add(new string[] { Path.GetFileNameWithoutExtension(value), Path.GetExtension(value) });
+                }
             }
 
             lvFiles.Items.Clear();
 
             foreach (string[] item in items)
             {
-                lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1] }));
+                lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1], (item[2] != null ? item[2] : "") }));
             }
         }
 

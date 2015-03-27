@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.mnuMenu = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMenuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSearch = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,6 +42,8 @@
             this.chFileSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cmsFile = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmsFileDownload = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMenuNodes = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAddNode = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMenu.SuspendLayout();
             this.cmsFile.SuspendLayout();
             this.SuspendLayout();
@@ -50,24 +52,25 @@
             // 
             this.mnuMenu.BackColor = System.Drawing.Color.White;
             this.mnuMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.mnuMenuFile,
+            this.mnuMenuNodes});
             this.mnuMenu.Location = new System.Drawing.Point(0, 0);
             this.mnuMenu.Name = "mnuMenu";
             this.mnuMenu.Size = new System.Drawing.Size(517, 24);
             this.mnuMenu.TabIndex = 0;
             this.mnuMenu.Text = "menuStrip1";
             // 
-            // fileToolStripMenuItem
+            // mnuMenuFile
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuMenuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuAdd,
             this.mnuRefresh,
             this.mnuSearch,
             this.toolStripSeparator1,
             this.mnuExit});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
-            this.fileToolStripMenuItem.Text = "File...";
+            this.mnuMenuFile.Name = "mnuMenuFile";
+            this.mnuMenuFile.Size = new System.Drawing.Size(46, 20);
+            this.mnuMenuFile.Text = "File...";
             // 
             // mnuAdd
             // 
@@ -147,6 +150,21 @@
             this.cmsFileDownload.Text = "Download";
             this.cmsFileDownload.Click += new System.EventHandler(this.cmsFileDownload_Click);
             // 
+            // mnuMenuNodes
+            // 
+            this.mnuMenuNodes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAddNode});
+            this.mnuMenuNodes.Name = "mnuMenuNodes";
+            this.mnuMenuNodes.Size = new System.Drawing.Size(62, 20);
+            this.mnuMenuNodes.Text = "Nodes...";
+            // 
+            // mnuAddNode
+            // 
+            this.mnuAddNode.Name = "mnuAddNode";
+            this.mnuAddNode.Size = new System.Drawing.Size(152, 22);
+            this.mnuAddNode.Text = "Add node";
+            this.mnuAddNode.Click += new System.EventHandler(this.mnuAddNode_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -169,7 +187,7 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip mnuMenu;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuMenuFile;
         private System.Windows.Forms.ToolStripMenuItem mnuAdd;
         private System.Windows.Forms.ToolStripMenuItem mnuRefresh;
         private System.Windows.Forms.ToolStripMenuItem mnuSearch;
@@ -181,5 +199,7 @@
         private System.Windows.Forms.ColumnHeader chFileSize;
         private System.Windows.Forms.ContextMenuStrip cmsFile;
         private System.Windows.Forms.ToolStripMenuItem cmsFileDownload;
+        private System.Windows.Forms.ToolStripMenuItem mnuMenuNodes;
+        private System.Windows.Forms.ToolStripMenuItem mnuAddNode;
     }
 }
