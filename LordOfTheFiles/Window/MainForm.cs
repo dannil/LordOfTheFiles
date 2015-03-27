@@ -45,7 +45,7 @@ namespace LordOfTheFiles.Window
             {
                 if (lvFiles.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
-                    cms_Download.Show(Cursor.Position);
+                    cmsDownload.Show(Cursor.Position);
 
                 }
             }
@@ -81,13 +81,12 @@ namespace LordOfTheFiles.Window
         {
             SortedList<ulong, string> tempDht = storageManager.GetDHT();
 
+            items = new List<ListViewItem>();
+
             foreach (string value in tempDht.Values)
             {
                 ListViewItem item = new ListViewItem(new string[] { Path.GetFileNameWithoutExtension(value), Path.GetExtension(value) });
-                if (!items.Contains(item))
-                {
-                    items.Add(item);
-                }
+                items.Add(item);
             }
 
             lvFiles.Items.Clear();

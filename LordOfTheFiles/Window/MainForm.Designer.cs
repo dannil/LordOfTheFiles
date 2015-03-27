@@ -37,13 +37,13 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.lvFiles = new System.Windows.Forms.ListView();
-            this.ch_File_Namn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_File_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch_File_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.cms_Download = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.chFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch_FileExtension = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chFileSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cmsDownload = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.downloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMenu.SuspendLayout();
-            this.cms_Download.SuspendLayout();
+            this.cmsDownload.SuspendLayout();
             this.SuspendLayout();
             // 
             // mnuMenu
@@ -106,9 +106,9 @@
             // lvFiles
             // 
             this.lvFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ch_File_Namn,
-            this.ch_File_Type,
-            this.ch_File_Size});
+            this.chFileName,
+            this.ch_FileExtension,
+            this.chFileSize});
             this.lvFiles.Location = new System.Drawing.Point(0, 27);
             this.lvFiles.Name = "lvFiles";
             this.lvFiles.Size = new System.Drawing.Size(517, 263);
@@ -117,26 +117,27 @@
             this.lvFiles.View = System.Windows.Forms.View.Details;
             this.lvFiles.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lvFiles_MouseClick);
             // 
-            // ch_File_Namn
+            // chFileName
             // 
-            this.ch_File_Namn.Text = "File Namn";
-            this.ch_File_Namn.Width = 388;
+            this.chFileName.Text = "Filename";
+            this.chFileName.Width = 345;
             // 
-            // ch_File_Type
+            // ch_FileExtension
             // 
-            this.ch_File_Type.Text = "File Type";
+            this.ch_FileExtension.Text = "Extension";
+            this.ch_FileExtension.Width = 81;
             // 
-            // ch_File_Size
+            // chFileSize
             // 
-            this.ch_File_Size.Text = "File Size";
-            this.ch_File_Size.Width = 64;
+            this.chFileSize.Text = "Size";
+            this.chFileSize.Width = 87;
             // 
-            // cms_Download
+            // cmsDownload
             // 
-            this.cms_Download.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmsDownload.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.downloadToolStripMenuItem});
-            this.cms_Download.Name = "contextMenuStrip1";
-            this.cms_Download.Size = new System.Drawing.Size(129, 26);
+            this.cmsDownload.Name = "contextMenuStrip1";
+            this.cmsDownload.Size = new System.Drawing.Size(153, 48);
             // 
             // downloadToolStripMenuItem
             // 
@@ -157,7 +158,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.mnuMenu.ResumeLayout(false);
             this.mnuMenu.PerformLayout();
-            this.cms_Download.ResumeLayout(false);
+            this.cmsDownload.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -173,10 +174,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem mnuExit;
         private System.Windows.Forms.ListView lvFiles;
-        private System.Windows.Forms.ColumnHeader ch_File_Namn;
-        private System.Windows.Forms.ColumnHeader ch_File_Type;
-        private System.Windows.Forms.ColumnHeader ch_File_Size;
-        private System.Windows.Forms.ContextMenuStrip cms_Download;
+        private System.Windows.Forms.ColumnHeader chFileName;
+        private System.Windows.Forms.ColumnHeader ch_FileExtension;
+        private System.Windows.Forms.ColumnHeader chFileSize;
+        private System.Windows.Forms.ContextMenuStrip cmsDownload;
         private System.Windows.Forms.ToolStripMenuItem downloadToolStripMenuItem;
     }
 }
