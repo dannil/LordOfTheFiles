@@ -44,6 +44,7 @@
             this.chFileSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cmsFile = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmsFileDownload = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsFileDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMenu.SuspendLayout();
             this.cmsFile.SuspendLayout();
             this.SuspendLayout();
@@ -155,16 +156,24 @@
             // cmsFile
             // 
             this.cmsFile.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmsFileDownload});
+            this.cmsFileDownload,
+            this.cmsFileDelete});
             this.cmsFile.Name = "contextMenuStrip1";
-            this.cmsFile.Size = new System.Drawing.Size(129, 26);
+            this.cmsFile.Size = new System.Drawing.Size(153, 70);
             // 
             // cmsFileDownload
             // 
             this.cmsFileDownload.Name = "cmsFileDownload";
-            this.cmsFileDownload.Size = new System.Drawing.Size(128, 22);
+            this.cmsFileDownload.Size = new System.Drawing.Size(152, 22);
             this.cmsFileDownload.Text = "Download";
             this.cmsFileDownload.Click += new System.EventHandler(this.cmsFileDownload_Click);
+            // 
+            // cmsFileDelete
+            // 
+            this.cmsFileDelete.Name = "cmsFileDelete";
+            this.cmsFileDelete.Size = new System.Drawing.Size(152, 22);
+            this.cmsFileDelete.Text = "Delete";
+            this.cmsFileDelete.Click += new System.EventHandler(this.cmsFileDelete_Click);
             // 
             // MainForm
             // 
@@ -202,5 +211,6 @@
         private System.Windows.Forms.ToolStripMenuItem cmsFileDownload;
         private System.Windows.Forms.ToolStripMenuItem mnuMenuNodes;
         private System.Windows.Forms.ToolStripMenuItem mnuAddNode;
+        private System.Windows.Forms.ToolStripMenuItem cmsFileDelete;
     }
 }
