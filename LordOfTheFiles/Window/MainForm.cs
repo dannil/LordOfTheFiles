@@ -48,9 +48,9 @@ namespace LordOfTheFiles.Window
 
             foreach (string[] item in items)
             {
-                if (item[0].ToLower().Contains(search) || item[1].ToLower().Contains(search) || (item[0] + "." + item[1]).ToLower().Contains(search))
+                if (item[0].ToLower().Contains(search) || item[1].ToLower().Contains(search) || (FileUtility.Combine(item[0], item[1])).ToLower().Contains(search))
                 {
-                    lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1], (item[2] != null ? item[2] : "") }));
+                    lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1], (item.Length >= 3 != null ? item[2] : "") }));
                 }
             }
         }
@@ -99,7 +99,7 @@ namespace LordOfTheFiles.Window
         {
             ListViewItem item = focusedItem;
 
-            string path = FileUtility.ToValidPath(FileUtility.FILES_DIR + items[item.Index][0] + "." + items[item.Index][1]);
+            string path = FileUtility.ToValidPath(FileUtility.FILES_DIR + FileUtility.Combine(items[item.Index][0], items[item.Index][1]));
             if (!System.IO.File.Exists(path))
             {
                 MessageBox.Show("This file doesn't exist locally; please download it first.");
@@ -111,7 +111,7 @@ namespace LordOfTheFiles.Window
         private void cmsFileDownload_Click(object sender, EventArgs e)
         {
             ListViewItem item = focusedItem;
-            storageManager.FindFile(items[item.Index][0] + "." + items[item.Index][1]);
+            storageManager.FindFile(FileUtility.Combine(items[item.Index][0], items[item.Index][1]));
 
             UpdateFileList();
         }
@@ -119,7 +119,7 @@ namespace LordOfTheFiles.Window
         private void cmsFileDelete_Click(object sender, EventArgs e)
         {
             ListViewItem item = focusedItem;
-            storageManager.DeleteFile(items[item.Index][0] + "." + items[item.Index][1]);
+            storageManager.DeleteFile(FileUtility.Combine(items[item.Index][0], items[item.Index][1]));
 
             UpdateFileList();
         }

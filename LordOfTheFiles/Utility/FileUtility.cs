@@ -77,5 +77,10 @@ namespace LordOfTheFiles.Utility
         {
             return path.Replace('/', '\\');
         }
+
+        public static string Combine(string name, string extension)
+        {
+            return name + "." + extension;
+        }
     }
 }
