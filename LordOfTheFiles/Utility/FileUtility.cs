@@ -72,5 +72,10 @@ namespace LordOfTheFiles.Utility
         {
             return ByteSize.ByteSize.FromKiloBytes(GetFileSizeAsKB(path)).MegaBytes;
         }
+
+        public static string ToValidPath(string path)
+        {
+            return path.Replace('/', '\\');
+        }
     }
 }

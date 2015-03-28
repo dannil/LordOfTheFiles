@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -41,7 +42,17 @@ namespace LordOfTheFiles.Window
             SearchForm searchForm = new SearchForm();
             searchForm.ShowDialog();
 
-            string search = searchForm.SearchText;
+            string search = searchForm.SearchText.ToLower();
+
+            lvFiles.Items.Clear();
+
+            foreach (string[] item in items)
+            {
+                if (item[0].ToLower().Contains(search) || item[1].ToLower().Contains(search) || (item[0] + "." + item[1]).ToLower().Contains(search))
+                {
+                    lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1], (item[2] != null ? item[2] : "") }));
+                }
+            }
         }
 
         private void lvFiles_MouseClick(object sender, MouseEventArgs e)
@@ -82,6 +93,19 @@ namespace LordOfTheFiles.Window
             storageManager.DeleteFile(items[item.Index][0] + "." + items[item.Index][1]);
 
             UpdateFileList();
+        }
+
+        private void cmsFileOpen_Click(object sender, EventArgs e)
+        {
+            ListViewItem item = focusedItem;
+
+            string path = FileUtility.ToValidPath(FileUtility.FILES_DIR + items[item.Index][0] + "." + items[item.Index][1]);
+            if (!System.IO.File.Exists(path))
+            {
+                MessageBox.Show("This file doesn't exist locally; please download it first.");
+                return;
+            }
+            Process.Start("explorer.exe", "/select," + path);
         }
 
         private void cmsFileDownload_Click(object sender, EventArgs e)
@@ -127,7 +151,7 @@ namespace LordOfTheFiles.Window
 
             foreach (string[] item in items)
             {
-                lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1], (item[2] != null ? item[2] : "") }));
+                lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1], (item.Length >= 3 ? item[2] : "") }));
             }
         }
 
