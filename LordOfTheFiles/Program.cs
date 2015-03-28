@@ -29,6 +29,7 @@ namespace LordOfTheFiles
 
             ChordServer.LocalNode = new ChordNode(ipAddressUtility.LocalIPv4.ToString(), ipAddressUtility.Port);
 
+            // Try to initialize the Chord service on the specified port
             if (ChordServer.RegisterService(ChordServer.LocalNode.PortNumber))
             {
                 Application.EnableVisualStyles();

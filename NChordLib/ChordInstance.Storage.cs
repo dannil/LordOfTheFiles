@@ -1,18 +1,14 @@
-﻿/*
- * ChordInstance.Storage.cs:
- * 
- *  Contains private data structure and public methods for
- *  key-value data storage.
- * 
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
 namespace NChordLib
 {
+    /// <summary>
+    /// Class which has methods for storage operations on a node. Contains functionality
+    /// for adding/deleting keys, adding/deleting files and searching for these.
+    /// </summary>
     public partial class ChordInstance : MarshalByRefObject
     {
         /// <summary>
@@ -87,10 +83,10 @@ namespace NChordLib
             ulong key = ChordServer.GetHash(value);
 
             // Replicate the key to the local datastore
-            ReplicateKey(key, value);
+            AddKey(key, value);
 
             // Replicate the key to a remote datastore
-            ReplicateRemote(ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode, value);
+            AddKeyRemote(ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode, value);
         }
 
         /// <summary>
@@ -103,14 +99,42 @@ namespace NChordLib
             ulong key = ChordServer.GetHash(value);
 
             // Replicate the key to the local datastore
-            ReplicateKey(key, value);
+            AddKey(key, value);
 
             // Replicate the key to a remote datastore if the current local node isn't 
             // the node which initiated the request; otherwise stop the request.
             if (sourceNode.ID != ChordServer.LocalNode.ID)
             {
-                ReplicateRemote(ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode, value);
+                AddKeyRemote(ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode, value);
             }
+        }
+
+        /// <summary>
+        /// Add the given key/value pair to the local store.
+        /// </summary>
+        /// <param name="key">The key to replicate.</param>
+        /// <param name="value">The value to replicate.</param>
+        public void AddKey(ulong key, string value)
+        {
+            // add the key/value pair to the local
+            // data store regardless of ownership
+            if (!this.dataStore.ContainsKey(key))
+            {
+                ChordServer.Log(LogLevel.Info, "Local invoker", "Replicating value {0} to local datastore", value);
+                this.dataStore.Add(key, value);
+            }
+        }
+
+        /// <summary>
+        /// Add the given value to a remote datastore.
+        /// </summary>
+        /// <param name="value">The value to replicate.</param>
+        /// <param name="remoteNode">The node to send the request to.</param>
+        /// <param name="sourceNode">The node which initiated the request.</param>
+        public void AddKeyRemote(ChordNode remoteNode, ChordNode sourceNode, string value)
+        {
+            ChordServer.Log(LogLevel.Info, "Local Invoker", "Replicating value {0} on node {1}", value, remoteNode);
+            ChordServer.CallAddKey(remoteNode, sourceNode, value);
         }
 
         /// <summary>
@@ -162,23 +186,41 @@ namespace NChordLib
             }
         }
 
+        /// <summary>
+        /// Retrieva a value based on the key remotely.
+        /// </summary>
+        /// <param name="key">The key for the value we want to fetch.</param>
+        /// <param name="remoteNode">The remote node which should invoke the find fkey-method</param>
+        /// <param name="sourceNode">The node which initiated the request.</param>
+        /// <returns></returns>
         private string FindKeyRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Searching for key {0} on node {1}", key, remoteNode);
             return ChordServer.CallFindKey(remoteNode, sourceNode, key);
         }
 
+        /// <summary>
+        /// Delete a given key from the datastore.
+        /// </summary>
+        /// <param name="key">The key to be deleted.</param>
         public void DeleteKey(ulong key)
         {
             if (this.dataStore.ContainsKey(key))
             {
+                // If our datastore contains the key, delete it
                 ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting key {0} from local datastore", key);
                 this.dataStore.Remove(key);
             }
 
+            // Call the method remotely to our successor
             DeleteKeyRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
         }
 
+        /// <summary>
+        /// Delete a given key from the datastore with the source node specified.
+        /// </summary>
+        /// <param name="key">The key to be deleted.</param>
+        /// <param name="sourceNode">The node which initiated the request</param>
         public void DeleteKey(ulong key, ChordNode sourceNode)
         {
             if (sourceNode.ID != ChordServer.LocalNode.ID)
@@ -188,42 +230,21 @@ namespace NChordLib
                     ChordServer.Log(LogLevel.Info, "Local invoker", "Deleting key {0} from local datastore", key);
                     this.dataStore.Remove(key);
                 }
+
                 DeleteKeyRemote(key, ChordServer.GetSuccessor(ChordServer.LocalNode), sourceNode);
             }
         }
 
+        /// <summary>
+        /// Delete a given key from the datastore remotely.
+        /// </summary>
+        /// <param name="key">The key to be deleted</param>
+        /// <param name="remoteNode">The node which should invoke the delete key-method</param>
+        /// <param name="sourceNode">The node which initiated the request</param>
         private void DeleteKeyRemote(ulong key, ChordNode remoteNode, ChordNode sourceNode)
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting key {0} from node {1}", key, remoteNode);
             ChordServer.CallDeleteKey(remoteNode, sourceNode, key);
-        }
-
-        /// <summary>
-        /// Add the given key/value pair as replicas to the local store.
-        /// </summary>
-        /// <param name="key">The key to replicate.</param>
-        /// <param name="value">The value to replicate.</param>
-        public void ReplicateKey(ulong key, string value)
-        {
-            // add the key/value pair to the local
-            // data store regardless of ownership
-            if (!this.dataStore.ContainsKey(key))
-            {
-                ChordServer.Log(LogLevel.Info, "Local invoker", "Replicating value {0} to local datastore", value);
-                this.dataStore.Add(key, value);
-            }
-        }
-
-        /// <summary>
-        /// Add the given value to a remote datastore.
-        /// </summary>
-        /// <param name="value">The value to replicate.</param>
-        /// <param name="remoteNode">The node to send the request to.</param>
-        /// <param name="sourceNode">The node which initiated the request.</param>
-        public void ReplicateRemote(ChordNode remoteNode, ChordNode sourceNode, string value)
-        {
-            ChordServer.Log(LogLevel.Info, "Local Invoker", "Replicating value {0} on node {1}", value, remoteNode);
-            ChordServer.CallAddKey(remoteNode, sourceNode, value);
         }
 
         /// <summary>
@@ -258,7 +279,7 @@ namespace NChordLib
                 {
                     // If the file was found on our successor, replicate the
                     // file to our local directory
-                    ReplicateFile(value, remoteContent);
+                    AddFile(value, remoteContent);
                 }
                 return remoteContent;
             }
@@ -306,7 +327,7 @@ namespace NChordLib
                 {
                     // If the file was found on our successor, replicate the
                     // file to our local directory
-                    ReplicateFile(value, remoteContent);
+                    AddFile(value, remoteContent);
                 }
                 return remoteContent;
             }
@@ -325,7 +346,7 @@ namespace NChordLib
         /// </summary>
         /// <param name="name">The filename of the file to replicate.</param>
         /// <param name="fileContent">The content of the file to replicate.</param>
-        public void ReplicateFile(string name, byte[] fileContent)
+        public void AddFile(string name, byte[] fileContent)
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Replicating file with name {0} on local node", name);
             string path = Environment.CurrentDirectory + "/files/" + name;
@@ -333,6 +354,10 @@ namespace NChordLib
             File.WriteAllBytes(path, fileContent);
         }
 
+        /// <summary>
+        /// Delete a file with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the file to be deleted.</param>
         public void DeleteFile(string name)
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting file with name {0} on local node", name);
@@ -341,6 +366,11 @@ namespace NChordLib
             DeleteFileRemote(name, ChordServer.GetSuccessor(ChordServer.LocalNode), ChordServer.LocalNode);
         }
 
+        /// <summary>
+        /// Delete a file with the specified name with the source node specified.
+        /// </summary>
+        /// <param name="name">The name of the file to be deleted</param>
+        /// <param name="sourceNode">The node which initiated the request</param>
         public void DeleteFile(string name, ChordNode sourceNode)
         {
             if (sourceNode.ID != ChordServer.LocalNode.ID)
@@ -352,6 +382,12 @@ namespace NChordLib
             }
         }
 
+        /// <summary>
+        /// Call delete file to a remote node.
+        /// </summary>
+        /// <param name="name">The name of the file to be deleted</param>
+        /// <param name="remoteNode">The remote node which should invoke the delete file-method</param>
+        /// <param name="sourceNode">The node which initiated the request</param>
         private void DeleteFileRemote(string name, ChordNode remoteNode, ChordNode sourceNode)
         {
             ChordServer.Log(LogLevel.Info, "Local Invoker", "Deleting file with name {0} on node {1}", name, remoteNode);

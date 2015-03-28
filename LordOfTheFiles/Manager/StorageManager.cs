@@ -102,7 +102,7 @@ namespace LordOfTheFiles.Manager
             Thread keyThread = new Thread(() => instance.AddKey(file.Name));
             keyThread.Start();
 
-            Thread fileThread = new Thread(() => instance.ReplicateFile(file.Name, file.Content));
+            Thread fileThread = new Thread(() => instance.AddFile(file.Name, file.Content));
             fileThread.Start();
 
             keyThread.Join();

@@ -7,15 +7,27 @@ using System.Text;
 
 namespace LordOfTheFiles.Utility
 {
+    /// <summary>
+    /// Contains functionality for fetching internal and external IP address to be used
+    /// in the application.
+    /// </summary>
     public class IPAddressUtility
     {
         private int port;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public IPAddressUtility()
         {
             port = 8861;
         }
 
+        /// <summary>
+        /// Return the local IPv4 for the specified network interface.
+        /// </summary>
+        /// <param name="type">The type of network interface</param>
+        /// <returns>The IPv4-address for the specified network interface.</returns>
         private IPAddress GetLocalIPv4(NetworkInterfaceType type)
         {
             foreach (NetworkInterface item in NetworkInterface.GetAllNetworkInterfaces())
@@ -34,6 +46,11 @@ namespace LordOfTheFiles.Utility
             return null;
         }
 
+        /// <summary>
+        /// Return the local IPv6 for the specified network interface.
+        /// </summary>
+        /// <param name="type">The type of network interface</param>
+        /// <returns>The IPv6-address for the specified network interface.</returns>
         private IPAddress GetLocalIPv6(NetworkInterfaceType type)
         {
             foreach (NetworkInterface item in NetworkInterface.GetAllNetworkInterfaces())
@@ -52,6 +69,9 @@ namespace LordOfTheFiles.Utility
             return null;
         }
 
+        /// <summary>
+        /// Returns the prefered local IPv4. Prefers wired connections over wireless.
+        /// </summary>
         public IPAddress LocalIPv4
         {
             get 
@@ -74,6 +94,9 @@ namespace LordOfTheFiles.Utility
             private set { }
         }
 
+        /// <summary>
+        /// Returns the prefered local IPv6. Prefers wired connections over wireless.
+        /// </summary>
         public IPAddress LocalIPv6
         {
             get
@@ -96,6 +119,9 @@ namespace LordOfTheFiles.Utility
             private set { }
         }
 
+        /// <summary>
+        /// Returns the external IPv4.
+        /// </summary>
         public IPAddress ExternalIPv4
         {
             get
@@ -115,6 +141,9 @@ namespace LordOfTheFiles.Utility
             private set { }
         }
 
+        /// <summary>
+        /// Returns the external IPv6.
+        /// </summary>
         public IPAddress ExternalIPv6
         {
             get
@@ -134,6 +163,9 @@ namespace LordOfTheFiles.Utility
             private set { }
         }
 
+        /// <summary>
+        /// Property for port
+        /// </summary>
         public int Port
         {
             get { return port; }
