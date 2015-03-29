@@ -50,7 +50,7 @@ namespace LordOfTheFiles.Window
             {
                 if (item[0].ToLower().Contains(search) || item[1].ToLower().Contains(search) || (FileUtility.Combine(item[0], item[1])).ToLower().Contains(search))
                 {
-                    lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1], (item.Length >= 3 ? item[2] : "") }));
+                    lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1], item[2] }));
                 }
             }
         }
@@ -143,7 +143,7 @@ namespace LordOfTheFiles.Window
                 }
                 else
                 {
-                    items.Add(new string[] { Path.GetFileNameWithoutExtension(value), Path.GetExtension(value).Substring(1) });
+                    items.Add(new string[] { Path.GetFileNameWithoutExtension(value), Path.GetExtension(value).Substring(1), "Not downloaded" });
                 }
             }
 
@@ -151,7 +151,7 @@ namespace LordOfTheFiles.Window
 
             foreach (string[] item in items)
             {
-                lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1], (item.Length >= 3 ? item[2] : "") }));
+                lvFiles.Items.Add(new ListViewItem(new string[] { item[0], item[1], item[2] }));
             }
         }
 
