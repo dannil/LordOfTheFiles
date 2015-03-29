@@ -22,16 +22,18 @@ namespace LordOfTheFiles.Window
 
         private StorageManager storageManager;
 
-        public MainForm()
+        private MainForm()
         {
             InitializeComponent();
 
             items = new List<string[]>();
 
             storageManager = new StorageManager();
+        }
 
-            ChordNode local = ChordServer.LocalNode;
-            storageManager.Instance.Join(null, local.Host, local.PortNumber);
+        public MainForm(ChordInstance instance) : this()
+        {
+            storageManager.Instance = instance;
 
             SynchronizeLocalDHTToNetwork();
             UpdateFileList();

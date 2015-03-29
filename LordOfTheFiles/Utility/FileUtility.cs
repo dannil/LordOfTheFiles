@@ -27,6 +27,22 @@ namespace LordOfTheFiles.Utility
             return File.ReadAllBytes(path);
         }
 
+        public static List<string> ReadLines(string path)
+        {
+            List<string> lines = new List<string>();
+
+            using (StreamReader r = new StreamReader(path))
+            {
+                string line;
+                while ((line = r.ReadLine()) != null)
+                {
+                    lines.Add(line);
+                }
+            }
+
+            return lines;
+        }
+
         /// <summary>
         /// Returns a string representation of the file size for a file on the specified path.
         /// </summary>

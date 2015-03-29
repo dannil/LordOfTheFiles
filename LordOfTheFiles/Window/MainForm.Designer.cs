@@ -44,9 +44,9 @@
             this.ch_FileExtension = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chFileSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cmsFile = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmsFileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsFileDownload = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsFileDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsFileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMenu.SuspendLayout();
             this.cmsFile.SuspendLayout();
             this.SuspendLayout();
@@ -162,28 +162,28 @@
             this.cmsFileDownload,
             this.cmsFileDelete});
             this.cmsFile.Name = "contextMenuStrip1";
-            this.cmsFile.Size = new System.Drawing.Size(153, 92);
+            this.cmsFile.Size = new System.Drawing.Size(129, 70);
+            // 
+            // cmsFileOpen
+            // 
+            this.cmsFileOpen.Name = "cmsFileOpen";
+            this.cmsFileOpen.Size = new System.Drawing.Size(128, 22);
+            this.cmsFileOpen.Text = "Open";
+            this.cmsFileOpen.Click += new System.EventHandler(this.cmsFileOpen_Click);
             // 
             // cmsFileDownload
             // 
             this.cmsFileDownload.Name = "cmsFileDownload";
-            this.cmsFileDownload.Size = new System.Drawing.Size(152, 22);
+            this.cmsFileDownload.Size = new System.Drawing.Size(128, 22);
             this.cmsFileDownload.Text = "Download";
             this.cmsFileDownload.Click += new System.EventHandler(this.cmsFileDownload_Click);
             // 
             // cmsFileDelete
             // 
             this.cmsFileDelete.Name = "cmsFileDelete";
-            this.cmsFileDelete.Size = new System.Drawing.Size(152, 22);
+            this.cmsFileDelete.Size = new System.Drawing.Size(128, 22);
             this.cmsFileDelete.Text = "Delete";
             this.cmsFileDelete.Click += new System.EventHandler(this.cmsFileDelete_Click);
-            // 
-            // cmsFileOpen
-            // 
-            this.cmsFileOpen.Name = "cmsFileOpen";
-            this.cmsFileOpen.Size = new System.Drawing.Size(152, 22);
-            this.cmsFileOpen.Text = "Open";
-            this.cmsFileOpen.Click += new System.EventHandler(this.cmsFileOpen_Click);
             // 
             // MainForm
             // 
