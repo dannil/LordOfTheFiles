@@ -43,7 +43,7 @@ namespace LordOfTheFiles
                 loadingForm.Status = "Please wait, checking for nodes...";
                 loadingForm.Show();
 
-                string seedNodeIp = GetSeedNodeIP();
+                string seedNodeIp = ipAddressUtility.GetSeedNodeIP();
                 if (seedNodeIp != null)
                 {
                     instance.Join(new ChordNode(seedNodeIp, ipAddressUtility.Port), ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
@@ -61,42 +61,6 @@ namespace LordOfTheFiles
             {
                 MessageBox.Show("There was a problem initializing the Chord service. Please make sure port 8861 isn't being used by another application.");
             }
-        }
-
-        /// <summary>
-        /// Get a seed node from the saved seed node file
-        /// </summary>
-        /// <returns>An IP-address which points to the seed node</returns>
-        private static string GetSeedNodeIP()
-        {
-            IPAddressUtility ipAddressUtility = new IPAddressUtility();
-
-            if (System.IO.File.Exists(FileUtility.REF_DIR + "nodes.txt"))
-            {
-                List<string> addresses = FileUtility.ReadLines(FileUtility.REF_DIR + "nodes.txt");
-                foreach (string address in addresses)
-                {
-                    if (address != ChordServer.LocalNode.Host)
-                    {
-                        bool alive = false;
-                        try
-                        {
-                            TcpClient connection = new TcpClientWithTimeout(address, ipAddressUtility.Port, 500).Connect();
-                            alive = true;
-                        }
-                        catch (Exception)
-                        {
-                            alive = false;
-                        }
-
-                        if (alive)
-                        {
-                            return address;
-                        }
-                    }
-                }
-            }
-            return null;
         }
     }
 }

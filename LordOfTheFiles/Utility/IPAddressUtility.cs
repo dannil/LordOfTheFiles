@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LordOfTheFiles.Model;
+using NChordLib;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -162,6 +164,41 @@ namespace LordOfTheFiles.Utility
             }
             private set { }
         }
+
+        /// <summary>
+        /// Get a seed node from the saved seed node file
+        /// </summary>
+        /// <returns>An IP-address which points to the seed node</returns>
+        public string GetSeedNodeIP()
+        {
+            IPAddressUtility ipAddressUtility = new IPAddressUtility();
+
+            if (System.IO.File.Exists(FileUtility.REF_DIR + "nodes.txt"))
+            {
+                List<string> addresses = FileUtility.ReadLines(FileUtility.REF_DIR + "nodes.txt");
+                foreach (string address in addresses)
+                {
+                    if (address != ChordServer.LocalNode.Host)
+                    {
+                        bool alive = false;
+                        try
+                        {
+                            TcpClient connection = new TcpClientWithTimeout(address, ipAddressUtility.Port, 500).Connect();
+                            alive = true;
+                        }
+                        catch (Exception)
+                        {
+                            alive = false;
+                        }
+
+                        if (alive)
+                        {
+                            return address;
+                        }
+                    }
+                }
+            }
+            return null;
 
         /// <summary>
         /// Property for port
