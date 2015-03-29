@@ -91,10 +91,7 @@ namespace LordOfTheFiles.Window
 
         private void mnuAddNode_Click(object sender, EventArgs e)
         {
-            ListViewItem item = lvFiles.Items[0];
-            storageManager.DeleteFile(items[item.Index][0] + "." + items[item.Index][1]);
 
-            UpdateFileList();
         }
 
         private void cmsFileOpen_Click(object sender, EventArgs e)

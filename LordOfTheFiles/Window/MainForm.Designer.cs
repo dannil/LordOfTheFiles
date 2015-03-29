@@ -143,7 +143,7 @@
             // chFileName
             // 
             this.chFileName.Text = "Filename";
-            this.chFileName.Width = 345;
+            this.chFileName.Width = 312;
             // 
             // ch_FileExtension
             // 
@@ -153,7 +153,7 @@
             // chFileSize
             // 
             this.chFileSize.Text = "Size";
-            this.chFileSize.Width = 87;
+            this.chFileSize.Width = 120;
             // 
             // cmsFile
             // 

@@ -95,7 +95,7 @@ namespace LordOfTheFiles_Test
         /// <summary>
         /// Test-ID 4
         /// 
-        /// Retrieve a non existing key from the distributed hash table
+        /// Retrieve a non-existing key from the distributed hash table
         /// </summary>
         [TestCase]
         public void FindNonExistingKey()
@@ -127,7 +127,7 @@ namespace LordOfTheFiles_Test
         /// <summary>
         /// Test-ID 6
         /// 
-        /// Delete a non existing key from the distributed hash table
+        /// Delete a non-existing key from the distributed hash table
         /// </summary>
         [TestCase]
         public void DeleteNonExistingKey()
@@ -162,22 +162,62 @@ namespace LordOfTheFiles_Test
             Assert.IsTrue(File.Exists("files/" + filename));
         }
 
+        /// <summary>
+        /// Test-ID 8
+        /// 
+        /// Find a file on the network
+        /// </summary>
         [TestCase]
         public void FindFile()
         {
+            string filename = "test" + testIndex + ".txt";
+            File.Create("files/" + filename);
 
+            LordOfTheFiles.Model.File file = new LordOfTheFiles.Model.File(filename, FileUtility.ReadBytes(filename));
+            storageManager.AddFile(file);
+
+            LordOfTheFiles.Model.File foundFile = storageManager.FindFile(filename);
+
+            Assert.IsNotNull(foundFile);
         }
 
+        /// <summary>
+        /// Test-ID 9
+        /// 
+        /// Find a non-existing file on the network
+        /// </summary>
         [TestCase]
         public void FindNonExistingFile()
         {
+            string filename = "test" + testIndex + ".txt";
 
+            LordOfTheFiles.Model.File file = new LordOfTheFiles.Model.File(filename, FileUtility.ReadBytes(filename));
+            storageManager.AddFile(file);
+
+            LordOfTheFiles.Model.File foundFile = storageManager.FindFile(filename);
+
+            Assert.IsNotNull(foundFile);
         }
 
+        /// <summary>
+        /// Test-ID 10
+        /// 
+        /// Delete a file from the network
+        /// </summary>
         [TestCase]
         public void DeleteFile()
         {
+            string filename = "test" + testIndex + ".txt";
+            File.Create("files/" + filename);
 
+            LordOfTheFiles.Model.File file = new LordOfTheFiles.Model.File(filename, FileUtility.ReadBytes(filename));
+            storageManager.AddFile(file);
+
+            storageManager.DeleteFile(filename);
+
+            LordOfTheFiles.Model.File foundFile = storageManager.FindFile(filename);
+
+            Assert.IsNull(foundFile);
         }
 
         [TestCase]

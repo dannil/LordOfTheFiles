@@ -63,6 +63,10 @@ namespace LordOfTheFiles
             }
         }
 
+        /// <summary>
+        /// Get a seed node from the saved seed node file
+        /// </summary>
+        /// <returns>An IP-address which points to the seed node</returns>
         private static string GetSeedNodeIP()
         {
             IPAddressUtility ipAddressUtility = new IPAddressUtility();
