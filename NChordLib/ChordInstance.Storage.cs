@@ -29,6 +29,7 @@ namespace NChordLib
             {
                 if (!temp.ContainsKey(pair.Key))
                 {
+                    ChordServer.Log(LogLevel.Info, "Local invoker", "Adding value {0} to distributed hash table", pair.Value);
                     temp.Add(pair.Key, pair.Value);
                 }
             }
@@ -54,6 +55,7 @@ namespace NChordLib
                 {
                     if (!temp.ContainsKey(pair.Key))
                     {
+                        ChordServer.Log(LogLevel.Info, "Local invoker", "Adding value {0} to distributed hash table", pair.Value);
                         temp.Add(pair.Key, pair.Value);
                     }
                 }
