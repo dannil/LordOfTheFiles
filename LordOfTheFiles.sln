@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NChordLib", "NChordLib\NCho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LordOfTheFiles", "LordOfTheFiles\LordOfTheFiles.csproj", "{8F2303A7-448C-4F4B-BF2C-4393270CDA44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LordOfTheFiles-Test", "LordOfTheFiles-Test\LordOfTheFiles-Test.csproj", "{9A378C27-1D3C-41B7-B84A-2DFC41071BD8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{8F2303A7-448C-4F4B-BF2C-4393270CDA44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F2303A7-448C-4F4B-BF2C-4393270CDA44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F2303A7-448C-4F4B-BF2C-4393270CDA44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A378C27-1D3C-41B7-B84A-2DFC41071BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A378C27-1D3C-41B7-B84A-2DFC41071BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A378C27-1D3C-41B7-B84A-2DFC41071BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A378C27-1D3C-41B7-B84A-2DFC41071BD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

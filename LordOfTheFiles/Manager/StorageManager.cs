@@ -52,13 +52,13 @@ namespace LordOfTheFiles.Manager
                 }
 
                 // Not sure if needed
-                if (localDht.Count < networkDht.Count)
-                {
-                    foreach (string value in localDht.Values)
-                    {
-                        AddKey(value);
-                    }
-                }
+                //if (localDht.Count < networkDht.Count)
+                //{
+                //    foreach (string value in localDht.Values)
+                //    {
+                //        AddKey(value);
+                //    }
+                //}
             }
             System.IO.File.WriteAllText(FileUtility.REF_DIR + "dht.xml", XMLUtility.DHTToXML(networkDht));
 
