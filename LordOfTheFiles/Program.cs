@@ -39,6 +39,19 @@ namespace LordOfTheFiles
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
+                if (!System.IO.File.Exists(FileUtility.REF_DIR + "nodes.txt"))
+                {
+                    DialogResult result = MessageBox.Show("It seems that you don't have a saved list of nodes. Do you want to connect to an existing node?", "Missing nodes", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                    {
+                        AddNodeForm addNodeForm = new AddNodeForm();
+                        addNodeForm.ShowDialog();
+
+                        string nodeIP = addNodeForm.NodeIP;
+
+                        System.IO.File.AppendAllLines(FileUtility.REF_DIR + "nodes.txt", new string[] { nodeIP });
+                    }
+                }
                 LoadingForm loadingForm = new LoadingForm();
                 loadingForm.Status = "Please wait, checking for nodes...";
                 loadingForm.Show();
