@@ -39,6 +39,7 @@
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMenuNodes = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNodesAdd = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuNodesRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.lvFiles = new System.Windows.Forms.ListView();
             this.chFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ch_FileExtension = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,7 +48,8 @@
             this.cmsFileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsFileDownload = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsFileDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuNodesRefresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMenuSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSettingsStatus = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMenu.SuspendLayout();
             this.cmsFile.SuspendLayout();
             this.SuspendLayout();
@@ -57,7 +59,8 @@
             this.mnuMenu.BackColor = System.Drawing.Color.White;
             this.mnuMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuMenuFile,
-            this.mnuMenuNodes});
+            this.mnuMenuNodes,
+            this.mnuMenuSettings});
             this.mnuMenu.Location = new System.Drawing.Point(0, 0);
             this.mnuMenu.Name = "mnuMenu";
             this.mnuMenu.Size = new System.Drawing.Size(517, 24);
@@ -127,6 +130,13 @@
             this.mnuNodesAdd.Text = "Add...";
             this.mnuNodesAdd.Click += new System.EventHandler(this.mnuAddNode_Click);
             // 
+            // mnuNodesRefresh
+            // 
+            this.mnuNodesRefresh.Name = "mnuNodesRefresh";
+            this.mnuNodesRefresh.Size = new System.Drawing.Size(152, 22);
+            this.mnuNodesRefresh.Text = "Refresh";
+            this.mnuNodesRefresh.Click += new System.EventHandler(this.mnuNodesRefresh_Click);
+            // 
             // lvFiles
             // 
             this.lvFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -187,12 +197,20 @@
             this.cmsFileDelete.Text = "Delete";
             this.cmsFileDelete.Click += new System.EventHandler(this.cmsFileDelete_Click);
             // 
-            // mnuNodesRefresh
+            // mnuMenuSettings
             // 
-            this.mnuNodesRefresh.Name = "mnuNodesRefresh";
-            this.mnuNodesRefresh.Size = new System.Drawing.Size(152, 22);
-            this.mnuNodesRefresh.Text = "Refresh";
-            this.mnuNodesRefresh.Click += new System.EventHandler(this.mnuNodesRefresh_Click);
+            this.mnuMenuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuSettingsStatus});
+            this.mnuMenuSettings.Name = "mnuMenuSettings";
+            this.mnuMenuSettings.Size = new System.Drawing.Size(70, 20);
+            this.mnuMenuSettings.Text = "Settings...";
+            // 
+            // mnuSettingsStatus
+            // 
+            this.mnuSettingsStatus.Name = "mnuSettingsStatus";
+            this.mnuSettingsStatus.Size = new System.Drawing.Size(152, 22);
+            this.mnuSettingsStatus.Text = "Status";
+            this.mnuSettingsStatus.Click += new System.EventHandler(this.mnuSettingsStatus_Click);
             // 
             // MainForm
             // 
@@ -234,5 +252,7 @@
         private System.Windows.Forms.ToolStripMenuItem cmsFileDelete;
         private System.Windows.Forms.ToolStripMenuItem cmsFileOpen;
         private System.Windows.Forms.ToolStripMenuItem mnuNodesRefresh;
+        private System.Windows.Forms.ToolStripMenuItem mnuMenuSettings;
+        private System.Windows.Forms.ToolStripMenuItem mnuSettingsStatus;
     }
 }

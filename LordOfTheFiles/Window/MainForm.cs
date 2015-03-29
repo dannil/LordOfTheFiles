@@ -1,15 +1,10 @@
 ﻿using LordOfTheFiles.Manager;
-using LordOfTheFiles.Model;
 using LordOfTheFiles.Utility;
 using NChordLib;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 namespace LordOfTheFiles.Window
@@ -127,10 +122,13 @@ namespace LordOfTheFiles.Window
 
             string nodeIP = addNodeForm.NodeIP;
 
-            List<string> addresses = FileUtility.ReadLines(FileUtility.REF_DIR + "nodes.txt");
-            if (!addresses.Contains(nodeIP))
+            if (nodeIP != string.Empty)
             {
-                System.IO.File.AppendAllLines(FileUtility.REF_DIR + "nodes.txt", new string[] { nodeIP });
+                List<string> addresses = FileUtility.ReadLines(FileUtility.REF_DIR + "nodes.txt");
+                if (!addresses.Contains(nodeIP))
+                {
+                    System.IO.File.AppendAllLines(FileUtility.REF_DIR + "nodes.txt", new string[] { nodeIP });
+                }
             }
         }
 
@@ -155,6 +153,12 @@ namespace LordOfTheFiles.Window
 
             //    loadingForm.Close();
             //}
+        }
+
+        private void mnuSettingsStatus_Click(object sender, EventArgs e)
+        {
+            StatusForm statusForm = new StatusForm();
+            statusForm.ShowDialog();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

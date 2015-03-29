@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NChordLib;
-using System.Threading;
-using LordOfTheFiles.Model;
+﻿using LordOfTheFiles.Model;
 using LordOfTheFiles.Utility;
-using System.Xml.Serialization;
+using NChordLib;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace LordOfTheFiles.Manager
 {

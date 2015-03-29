@@ -1,20 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-using NChordLib;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
-using LordOfTheFiles.Manager;
 using LordOfTheFiles.Utility;
-using LordOfTheFiles.Model;
 using LordOfTheFiles.Window;
-using System.Windows.Forms;
-using System.Reflection;
+using NChordLib;
+using System;
 using System.IO;
-using System.Linq;
-using System.Threading;
+using System.Windows.Forms;
 
 namespace LordOfTheFiles
 {
@@ -72,7 +61,7 @@ namespace LordOfTheFiles
             }
             else
             {
-                MessageBox.Show("There was a problem initializing the Chord service. Please make sure port 8861 isn't being used by another application.");
+                MessageBox.Show("There was a problem initializing the Chord service. Please make sure port " + ipAddressUtility.Port + " isn't being used by another application.");
             }
         }
     }

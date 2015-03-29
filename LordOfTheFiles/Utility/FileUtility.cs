@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-using ByteSize;
 
 namespace LordOfTheFiles.Utility
 {
@@ -27,6 +23,11 @@ namespace LordOfTheFiles.Utility
             return File.ReadAllBytes(path);
         }
 
+        /// <summary>
+        /// Read all lines from the specified file into a list
+        /// </summary>
+        /// <param name="path">The path of the file.</param>
+        /// <returns>A list of all the lines inside the file.</returns>
         public static List<string> ReadLines(string path)
         {
             List<string> lines = new List<string>();
@@ -89,11 +90,23 @@ namespace LordOfTheFiles.Utility
             return ByteSize.ByteSize.FromKiloBytes(GetFileSizeAsKB(path)).MegaBytes;
         }
 
+        /// <summary>
+        /// Convert a path to a valid format; i.e. only backslashes
+        /// </summary>
+        /// <param name="path">The path to convert to be valid.</param>
+        /// <returns>A valid path.</returns>
         public static string ToValidPath(string path)
         {
             return path.Replace('/', '\\');
         }
 
+        /// <summary>
+        /// Combine the name and the extension to form
+        /// a valid filename
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="extension">The extension.</param>
+        /// <returns>The combined string of the name and the extension.</returns>
         public static string Combine(string name, string extension)
         {
             return name + "." + extension;

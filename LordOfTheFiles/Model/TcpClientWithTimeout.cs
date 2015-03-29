@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Net.Sockets;
+using System.Threading;
 
 namespace LordOfTheFiles.Model
 {
-    using System;
-    using System.Net.Sockets;
-    using System.Threading;
-
     /// <summary>
     /// TcpClientWithTimeout is used to open a TcpClient connection, with a 
     /// user definable connection timeout in milliseconds (1000=1second)
@@ -30,6 +25,7 @@ namespace LordOfTheFiles.Model
             _port = port;
             _timeout_milliseconds = timeout_milliseconds;
         }
+
         public TcpClient Connect()
         {
             // kick off the thread that tries to connect
@@ -64,6 +60,7 @@ namespace LordOfTheFiles.Model
                 throw new TimeoutException(message);
             }
         }
+
         protected void BeginConnect()
         {
             try
@@ -78,5 +75,6 @@ namespace LordOfTheFiles.Model
                 exception = ex;
             }
         }
+
     }
 }
