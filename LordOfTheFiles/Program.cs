@@ -78,6 +78,7 @@ namespace LordOfTheFiles
                         try
                         {
                             TcpClient connection = new TcpClientWithTimeout(address, ipAddressUtility.Port, 500).Connect();
+                            alive = true;
                         }
                         catch (Exception)
                         {
