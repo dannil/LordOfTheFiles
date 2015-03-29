@@ -38,7 +38,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMenuNodes = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuAddNode = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuNodesAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.lvFiles = new System.Windows.Forms.ListView();
             this.chFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ch_FileExtension = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,6 +47,7 @@
             this.cmsFileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsFileDownload = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsFileDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuNodesRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMenu.SuspendLayout();
             this.cmsFile.SuspendLayout();
             this.SuspendLayout();
@@ -113,17 +114,18 @@
             // mnuMenuNodes
             // 
             this.mnuMenuNodes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuAddNode});
+            this.mnuNodesAdd,
+            this.mnuNodesRefresh});
             this.mnuMenuNodes.Name = "mnuMenuNodes";
             this.mnuMenuNodes.Size = new System.Drawing.Size(62, 20);
             this.mnuMenuNodes.Text = "Nodes...";
             // 
-            // mnuAddNode
+            // mnuNodesAdd
             // 
-            this.mnuAddNode.Name = "mnuAddNode";
-            this.mnuAddNode.Size = new System.Drawing.Size(126, 22);
-            this.mnuAddNode.Text = "Add node";
-            this.mnuAddNode.Click += new System.EventHandler(this.mnuAddNode_Click);
+            this.mnuNodesAdd.Name = "mnuNodesAdd";
+            this.mnuNodesAdd.Size = new System.Drawing.Size(152, 22);
+            this.mnuNodesAdd.Text = "Add...";
+            this.mnuNodesAdd.Click += new System.EventHandler(this.mnuAddNode_Click);
             // 
             // lvFiles
             // 
@@ -185,6 +187,13 @@
             this.cmsFileDelete.Text = "Delete";
             this.cmsFileDelete.Click += new System.EventHandler(this.cmsFileDelete_Click);
             // 
+            // mnuNodesRefresh
+            // 
+            this.mnuNodesRefresh.Name = "mnuNodesRefresh";
+            this.mnuNodesRefresh.Size = new System.Drawing.Size(152, 22);
+            this.mnuNodesRefresh.Text = "Refresh";
+            this.mnuNodesRefresh.Click += new System.EventHandler(this.mnuNodesRefresh_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -221,8 +230,9 @@
         private System.Windows.Forms.ContextMenuStrip cmsFile;
         private System.Windows.Forms.ToolStripMenuItem cmsFileDownload;
         private System.Windows.Forms.ToolStripMenuItem mnuMenuNodes;
-        private System.Windows.Forms.ToolStripMenuItem mnuAddNode;
+        private System.Windows.Forms.ToolStripMenuItem mnuNodesAdd;
         private System.Windows.Forms.ToolStripMenuItem cmsFileDelete;
         private System.Windows.Forms.ToolStripMenuItem cmsFileOpen;
+        private System.Windows.Forms.ToolStripMenuItem mnuNodesRefresh;
     }
 }

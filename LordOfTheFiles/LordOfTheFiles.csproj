@@ -79,6 +79,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\XMLUtility.cs" />
+    <Compile Include="Window\AddNodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\AddNodeForm.Designer.cs">
+      <DependentUpon>AddNodeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\LoadingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +126,9 @@
     <Content Include="Resources\Icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Window\AddNodeForm.resx">
+      <DependentUpon>AddNodeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Window\LoadingForm.resx">
       <DependentUpon>LoadingForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -20,6 +20,7 @@ namespace LordOfTheFiles.Window
 
         private List<string[]> items;
 
+        private IPAddressUtility ipAddressUtility;
         private StorageManager storageManager;
 
         private MainForm()
@@ -28,6 +29,7 @@ namespace LordOfTheFiles.Window
 
             items = new List<string[]>();
 
+            ipAddressUtility = new IPAddressUtility();
             storageManager = new StorageManager();
         }
 
@@ -89,11 +91,6 @@ namespace LordOfTheFiles.Window
             UpdateFileList();
         }
 
-        private void mnuAddNode_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void cmsFileOpen_Click(object sender, EventArgs e)
         {
             ListViewItem item = focusedItem;
@@ -121,6 +118,43 @@ namespace LordOfTheFiles.Window
             storageManager.DeleteFile(FileUtility.Combine(items[item.Index][0], items[item.Index][1]));
 
             UpdateFileList();
+        }
+
+        private void mnuAddNode_Click(object sender, EventArgs e)
+        {
+            AddNodeForm addNodeForm = new AddNodeForm();
+            addNodeForm.ShowDialog();
+
+            string nodeIP = addNodeForm.NodeIP;
+
+            List<string> addresses = FileUtility.ReadLines(FileUtility.REF_DIR + "nodes.txt");
+            if (!addresses.Contains(nodeIP))
+            {
+                System.IO.File.AppendAllLines(FileUtility.REF_DIR + "nodes.txt", new string[] { nodeIP });
+            }
+        }
+
+        private void mnuNodesRefresh_Click(object sender, EventArgs e)
+        {
+            //DialogResult result = MessageBox.Show("Notice: refreshing the node list can take some depending on the amount of nodes. Do you want to continue?");
+            //if (result == DialogResult.OK)
+            //{
+            //    LoadingForm loadingForm = new LoadingForm();
+            //    loadingForm.Status = "Please wait, checking for nodes...";
+            //    loadingForm.Show();
+
+            //    string seedNodeIp = ipAddressUtility.GetSeedNodeIP();
+            //    if (seedNodeIp != null)
+            //    {
+            //        storageManager.Instance.Join(new ChordNode(seedNodeIp, ipAddressUtility.Port), ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
+            //    }
+            //    else
+            //    {
+            //        storageManager.Instance.Join(null, ChordServer.LocalNode.Host, ChordServer.LocalNode.PortNumber);
+            //    }
+
+            //    loadingForm.Close();
+            //}
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
