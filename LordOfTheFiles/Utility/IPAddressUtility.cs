@@ -199,6 +199,7 @@ namespace LordOfTheFiles.Utility
                 }
             }
             return null;
+        }
 
         /// <summary>
         /// Property for port
