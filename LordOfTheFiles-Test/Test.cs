@@ -191,12 +191,9 @@ namespace LordOfTheFiles_Test
         {
             string filename = "test" + testIndex + ".txt";
 
-            LordOfTheFiles.Model.File file = new LordOfTheFiles.Model.File(filename, FileUtility.ReadBytes(filename));
-            storageManager.AddFile(file);
-
             LordOfTheFiles.Model.File foundFile = storageManager.FindFile(filename);
 
-            Assert.IsNotNull(foundFile);
+            Assert.IsNull(foundFile);
         }
 
         /// <summary>
