@@ -16,6 +16,17 @@ namespace LordOfTheFiles
             Directory.CreateDirectory(FileUtility.FILES_DIR);
             Directory.CreateDirectory(FileUtility.REF_DIR);
 
+            // Initialize files
+            if (!File.Exists(FileUtility.REF_DIR + "dht.xml"))
+            {
+                File.Create(FileUtility.REF_DIR + "dht.xml");
+            }
+
+            if (!File.Exists(FileUtility.REF_DIR + "nodes.txt"))
+            {
+                File.Create(FileUtility.REF_DIR + "nodes.txt");
+            }
+
             IPAddressUtility ipAddressUtility = new IPAddressUtility();
 
             ChordServer.LocalNode = new ChordNode(ipAddressUtility.LocalIPv4.ToString(), ipAddressUtility.Port);
@@ -28,7 +39,7 @@ namespace LordOfTheFiles
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                if (!System.IO.File.Exists(FileUtility.REF_DIR + "nodes.txt"))
+                if (FileUtility.ReadLines(FileUtility.REF_DIR + "nodes.txt").Count <= 0)
                 {
                     DialogResult result = MessageBox.Show("It seems that you don't have a saved list of nodes. Do you want to connect to an existing node?", "Missing nodes", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
