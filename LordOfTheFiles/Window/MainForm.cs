@@ -194,10 +194,13 @@ namespace LordOfTheFiles.Window
 
         private void SynchronizeLocalDHTToNetwork()
         {
-            SortedList<ulong, string> localDht = XMLUtility.DHTFromXML(FileUtility.REF_DIR + "dht.xml");
-            foreach (string value in localDht.Values)
+            if (System.IO.File.Exists(FileUtility.REF_DIR + "dht.xml"))
             {
-                storageManager.AddKey(value);
+                SortedList<ulong, string> localDht = XMLUtility.DHTFromXML(FileUtility.REF_DIR + "dht.xml");
+                foreach (string value in localDht.Values)
+                {
+                    storageManager.AddKey(value);
+                }
             }
         }
 

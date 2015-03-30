@@ -16,12 +16,6 @@ namespace LordOfTheFiles
             Directory.CreateDirectory(FileUtility.FILES_DIR);
             Directory.CreateDirectory(FileUtility.REF_DIR);
 
-            // Initialize files
-            if (!File.Exists(FileUtility.REF_DIR + "dht.xml"))
-            {
-                File.Create(FileUtility.REF_DIR + "dht.xml");
-            }
-
             if (!File.Exists(FileUtility.REF_DIR + "nodes.txt"))
             {
                 File.Create(FileUtility.REF_DIR + "nodes.txt");
