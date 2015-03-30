@@ -73,7 +73,7 @@ namespace NChordLib
                     try
                     {
                         this.Successor = instance.FindSuccessor(this.ID);   // NOTE: this conceivably could be replaced with ChordServer.FindSuccessor()
-                        
+
                         // disabled: a clever trick that requires only one remote network call is to
                         //  append the successor's successor cache (minus its last entry) to the local
                         //  successor cache, starting at the second entry in the local successor cache.
