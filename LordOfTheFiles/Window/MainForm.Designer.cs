@@ -40,6 +40,8 @@
             this.mnuMenuNodes = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNodesAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNodesRefresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMenuSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSettingsStatus = new System.Windows.Forms.ToolStripMenuItem();
             this.lvFiles = new System.Windows.Forms.ListView();
             this.chFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ch_FileExtension = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -48,8 +50,6 @@
             this.cmsFileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsFileDownload = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsFileDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMenuSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSettingsStatus = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMenu.SuspendLayout();
             this.cmsFile.SuspendLayout();
             this.SuspendLayout();
@@ -63,7 +63,7 @@
             this.mnuMenuSettings});
             this.mnuMenu.Location = new System.Drawing.Point(0, 0);
             this.mnuMenu.Name = "mnuMenu";
-            this.mnuMenu.Size = new System.Drawing.Size(517, 24);
+            this.mnuMenu.Size = new System.Drawing.Size(534, 24);
             this.mnuMenu.TabIndex = 0;
             this.mnuMenu.Text = "menuStrip1";
             // 
@@ -126,16 +126,31 @@
             // mnuNodesAdd
             // 
             this.mnuNodesAdd.Name = "mnuNodesAdd";
-            this.mnuNodesAdd.Size = new System.Drawing.Size(152, 22);
+            this.mnuNodesAdd.Size = new System.Drawing.Size(113, 22);
             this.mnuNodesAdd.Text = "Add...";
             this.mnuNodesAdd.Click += new System.EventHandler(this.mnuAddNode_Click);
             // 
             // mnuNodesRefresh
             // 
             this.mnuNodesRefresh.Name = "mnuNodesRefresh";
-            this.mnuNodesRefresh.Size = new System.Drawing.Size(152, 22);
+            this.mnuNodesRefresh.Size = new System.Drawing.Size(113, 22);
             this.mnuNodesRefresh.Text = "Refresh";
             this.mnuNodesRefresh.Click += new System.EventHandler(this.mnuNodesRefresh_Click);
+            // 
+            // mnuMenuSettings
+            // 
+            this.mnuMenuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuSettingsStatus});
+            this.mnuMenuSettings.Name = "mnuMenuSettings";
+            this.mnuMenuSettings.Size = new System.Drawing.Size(70, 20);
+            this.mnuMenuSettings.Text = "Settings...";
+            // 
+            // mnuSettingsStatus
+            // 
+            this.mnuSettingsStatus.Name = "mnuSettingsStatus";
+            this.mnuSettingsStatus.Size = new System.Drawing.Size(106, 22);
+            this.mnuSettingsStatus.Text = "Status";
+            this.mnuSettingsStatus.Click += new System.EventHandler(this.mnuSettingsStatus_Click);
             // 
             // lvFiles
             // 
@@ -146,7 +161,7 @@
             this.lvFiles.FullRowSelect = true;
             this.lvFiles.Location = new System.Drawing.Point(0, 27);
             this.lvFiles.Name = "lvFiles";
-            this.lvFiles.Size = new System.Drawing.Size(517, 263);
+            this.lvFiles.Size = new System.Drawing.Size(534, 263);
             this.lvFiles.TabIndex = 1;
             this.lvFiles.UseCompatibleStateImageBehavior = false;
             this.lvFiles.View = System.Windows.Forms.View.Details;
@@ -197,26 +212,11 @@
             this.cmsFileDelete.Text = "Delete";
             this.cmsFileDelete.Click += new System.EventHandler(this.cmsFileDelete_Click);
             // 
-            // mnuMenuSettings
-            // 
-            this.mnuMenuSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuSettingsStatus});
-            this.mnuMenuSettings.Name = "mnuMenuSettings";
-            this.mnuMenuSettings.Size = new System.Drawing.Size(70, 20);
-            this.mnuMenuSettings.Text = "Settings...";
-            // 
-            // mnuSettingsStatus
-            // 
-            this.mnuSettingsStatus.Name = "mnuSettingsStatus";
-            this.mnuSettingsStatus.Size = new System.Drawing.Size(152, 22);
-            this.mnuSettingsStatus.Text = "Status";
-            this.mnuSettingsStatus.Click += new System.EventHandler(this.mnuSettingsStatus_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(517, 290);
+            this.ClientSize = new System.Drawing.Size(534, 290);
             this.Controls.Add(this.lvFiles);
             this.Controls.Add(this.mnuMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
