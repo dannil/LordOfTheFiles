@@ -1,4 +1,5 @@
 ﻿using LordOfTheFiles.Utility;
+using NChordLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,9 @@ namespace LordOfTheFiles.Window
             txtInternalIP.Text = ipAddressUtility.LocalIPv4.ToString();
             txtExternalIP.Text = ipAddressUtility.ExternalIPv4.ToString();
             txtPort.Text = ipAddressUtility.Port.ToString();
+
+            txtPredecessor.Text = ChordServer.GetPredecessor(ChordServer.LocalNode).Host;
+            txtSuccessor.Text = ChordServer.GetSuccessor(ChordServer.LocalNode).Host;
         }
     }
 }

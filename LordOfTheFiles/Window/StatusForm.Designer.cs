@@ -35,6 +35,10 @@
             this.txtInternalIP = new System.Windows.Forms.TextBox();
             this.txtExternalIP = new System.Windows.Forms.TextBox();
             this.txtPort = new System.Windows.Forms.TextBox();
+            this.lblPredecessor = new System.Windows.Forms.Label();
+            this.lblSuccessor = new System.Windows.Forms.Label();
+            this.txtPredecessor = new System.Windows.Forms.TextBox();
+            this.txtSuccessor = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblInternalIP
@@ -88,11 +92,49 @@
             this.txtPort.Size = new System.Drawing.Size(255, 20);
             this.txtPort.TabIndex = 5;
             // 
+            // lblPredecessor
+            // 
+            this.lblPredecessor.AutoSize = true;
+            this.lblPredecessor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPredecessor.Location = new System.Drawing.Point(12, 100);
+            this.lblPredecessor.Name = "lblPredecessor";
+            this.lblPredecessor.Size = new System.Drawing.Size(92, 16);
+            this.lblPredecessor.TabIndex = 6;
+            this.lblPredecessor.Text = "Predecessor: ";
+            // 
+            // lblSuccessor
+            // 
+            this.lblSuccessor.AutoSize = true;
+            this.lblSuccessor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSuccessor.Location = new System.Drawing.Point(12, 126);
+            this.lblSuccessor.Name = "lblSuccessor";
+            this.lblSuccessor.Size = new System.Drawing.Size(78, 16);
+            this.lblSuccessor.TabIndex = 7;
+            this.lblSuccessor.Text = "Successor: ";
+            // 
+            // txtPredecessor
+            // 
+            this.txtPredecessor.Location = new System.Drawing.Point(110, 99);
+            this.txtPredecessor.Name = "txtPredecessor";
+            this.txtPredecessor.Size = new System.Drawing.Size(270, 20);
+            this.txtPredecessor.TabIndex = 8;
+            // 
+            // txtSuccessor
+            // 
+            this.txtSuccessor.Location = new System.Drawing.Point(96, 125);
+            this.txtSuccessor.Name = "txtSuccessor";
+            this.txtSuccessor.Size = new System.Drawing.Size(284, 20);
+            this.txtSuccessor.TabIndex = 9;
+            // 
             // StatusForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 88);
+            this.ClientSize = new System.Drawing.Size(392, 149);
+            this.Controls.Add(this.txtSuccessor);
+            this.Controls.Add(this.txtPredecessor);
+            this.Controls.Add(this.lblSuccessor);
+            this.Controls.Add(this.lblPredecessor);
             this.Controls.Add(this.txtPort);
             this.Controls.Add(this.txtExternalIP);
             this.Controls.Add(this.txtInternalIP);
@@ -115,5 +157,9 @@
         private System.Windows.Forms.TextBox txtInternalIP;
         private System.Windows.Forms.TextBox txtExternalIP;
         private System.Windows.Forms.TextBox txtPort;
+        private System.Windows.Forms.Label lblPredecessor;
+        private System.Windows.Forms.Label lblSuccessor;
+        private System.Windows.Forms.TextBox txtPredecessor;
+        private System.Windows.Forms.TextBox txtSuccessor;
     }
 }
