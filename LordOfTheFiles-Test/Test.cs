@@ -31,9 +31,10 @@ namespace LordOfTheFiles_Test
 
             dht = new SortedList<ulong, string>();
 
-            ChordServer.RegisterService(8861);
-
             IPAddressUtility ipAddressUtility = new IPAddressUtility();
+            ipAddressUtility.Port = 8871;
+
+            ChordServer.RegisterService(ipAddressUtility.Port);
 
             ChordServer.LocalNode = new ChordNode(ipAddressUtility.LocalIPv4.ToString(), ipAddressUtility.Port);
 
@@ -171,7 +172,7 @@ namespace LordOfTheFiles_Test
         public void FindFile()
         {
             string filename = "test" + testIndex + ".txt";
-            File.Create("files/" + filename);
+            File.Create(FileUtility.FILES_DIR + filename);
 
             LordOfTheFiles.Model.File file = new LordOfTheFiles.Model.File(filename, FileUtility.ReadBytes(filename));
             storageManager.AddFile(file);
@@ -217,16 +218,40 @@ namespace LordOfTheFiles_Test
             Assert.IsNull(foundFile);
         }
 
+        /// <summary>
+        /// Test-ID 11
+        /// 
+        /// Save the distributed hash table to a file
+        /// </summary>
         [TestCase]
         public void SaveDHTToXML()
         {
+            storageManager.AddKey("test" + testIndex);
 
+            SortedList<ulong, string> dht = storageManager.GetDHT();
+
+            XMLUtility.DHTToXML(dht);
+
+            Assert.IsTrue(File.Exists(FileUtility.REF_DIR + "dht.xml"));
         }
 
+        /// <summary>
+        /// Test-ID 12
+        /// 
+        /// Convert the saved file to a logical distributed hash table
+        /// </summary>
         [TestCase]
         public void GetDHTFromXML()
         {
+            storageManager.AddKey("test" + testIndex);
 
+            SortedList<ulong, string> dht = storageManager.GetDHT();
+
+            XMLUtility.DHTToXML(dht);
+
+            SortedList<ulong, string> savedDht = XMLUtility.DHTFromXML(FileUtility.REF_DIR + "dht.xml");
+
+            Assert.AreEqual(dht, savedDht);
         }
     }
 }
