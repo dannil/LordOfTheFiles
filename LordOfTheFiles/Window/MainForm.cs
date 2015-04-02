@@ -192,6 +192,9 @@ namespace LordOfTheFiles.Window
             }
         }
 
+        /// <summary>
+        /// Synchronize the local DHT to the network
+        /// </summary>
         private void SynchronizeLocalDHTToNetwork()
         {
             if (System.IO.File.Exists(FileUtility.REF_DIR + "dht.xml"))
